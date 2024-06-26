@@ -11,7 +11,7 @@
 - Usage
 
 ## About
-#### An online app that streams videos and sells images.
+#### README for frontend only
 
 
 ## Getting Started
@@ -20,38 +20,31 @@
 What things you need to install the software and how to install them:
 
 Node.js - JavaScript runtime
-npm (comes with Node.js) or Yarn - Package managers
+npm (comes with Node.js)
 
 
-#### Installing
+#### Installing npm
 
-A step-by-step guide to get your development environment set up:
+1. cd into the frontend folder
 
-1. Clone the repository:
-
-bash
-
-git clone https://github.com/yourusername/my-react-app.git
-cd my-react-app
+```
+cd PrimeFlix/frontend
+```
 
 
 2. Install dependencies:
 
-bash
+
 ```
-npm install
-# or
-yarn
+npm install 
 ```
 
 ## Usage
-#### Provide instructions on how to use your application:
+#### Instructions on how to use the application:
 
-bash
+
 ```
-npm start
-# or
-yarn start
+npm start 
 ```
 
 Open ***http://localhost:3000*** to view it in the browser.
