@@ -5,7 +5,7 @@ const LoginContainer = () => {
   return (
     <div>
       <h1>Welcome to PrimeFlix</h1>
-      <ImageContainer />
+      {/* <ImageContainer /> */}
       
 
     </div>
