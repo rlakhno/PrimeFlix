@@ -1,6 +1,6 @@
 
 
-# PrimeFlix App.
+# PrimeFlix/frontend App.
 
 
 ## Table of Contents
