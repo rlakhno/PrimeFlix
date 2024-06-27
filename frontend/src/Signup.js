@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SignupValidation from './SignupValidation'
+import axios from 'axios'
 
 function Signup() {
 
@@ -18,6 +19,11 @@ function Signup() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setErrors(SignupValidation(values));
+    if(errors.firstName === "" && errors.lastName === "" && errors.email === "" && errors.password === "") {
+      axios.post('http://localhost:8080/signup', values)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    }
 
   }
 
@@ -57,7 +63,7 @@ function Signup() {
           <div className="mb-3 text-start">
             <label htmlFor="password" className="form-label">Password</label>
             <input type="password" placeholder="Enter Password" name='password' onChange={handleInput} className="form-control rounded-0" />
-            {errors.password && <span className='text-denger'>{errors.password}</span>}
+            {errors.password && <span className='text-danger'>{errors.password}</span>}
           </div>
 
           <button className="btn btn-success w-100 mb-2">Sign-up</button>

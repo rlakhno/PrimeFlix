@@ -3,7 +3,8 @@ function Validation(values) {
   let error = {};
   // Regular expression for basic email validation
   const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const password_pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  // const password_pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
 
   if (values.firstName === "") {
     error.firstName = "First Name should not be empty";
@@ -29,9 +30,6 @@ function Validation(values) {
 
   if (values.password === "") {
     error.password = "Password should not be empty";
-  }
-  else if (!password_pattern.test(values.password)) {
-    error.password = "Password did not match";
   } else {
     error.password = "";
   }

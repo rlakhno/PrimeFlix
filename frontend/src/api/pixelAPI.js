@@ -4,7 +4,7 @@ const { createClient } = require('pexels');
 const client = createClient('jbH4a0Tfg1s0gbRnNWVZbess9dh9XMubtqci5ej9WzJaJLoKz9EZUfzd');
 
 // Function to search for videos
-async function searchVideos(query, perPage = 1, page = 1) {
+async function searchVideos(query, perPage, page = 1) {
   try {
     const response = await client.videos.search({ query, per_page: perPage, page });
     for (let i = 0; i < response.videos.length; i++) {
@@ -16,7 +16,7 @@ async function searchVideos(query, perPage = 1, page = 1) {
 }
 
 // Function to search for images
-async function searchImages(query, perPage = 3, page = 1) {
+async function searchImages(query, perPage, page = 1) {
   try {
     const response = await client.photos.search({ query, per_page: perPage, page });
     for (let i = 0; i < response.photos.length; i++) {
