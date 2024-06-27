@@ -10,6 +10,7 @@ import Signup from './Signup'
 function App() {
   return (
     <BrowserRouter>
+    <LoginContainer />
       <Routes>
           <Route path='/' element={<Login />}></Route>
           <Route path='/signup' element={<Signup />}></Route>
