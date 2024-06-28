@@ -40,7 +40,7 @@ function Signup() {
 
   return (
     <div className="d-flex justify-content-center align-items-center bg-primary vh-100" style={{
-      backgroundImage: "url('https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg')",
+      backgroundImage: "url('/3d-cinema.jpg')",
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
