@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import SignupValidation from './SignupValidation'
+import { Link, useNavigate } from 'react-router-dom'
+import validate from './SignupValidation'
 import axios from 'axios'
 
 function Signup() {
@@ -11,19 +11,30 @@ function Signup() {
     email: '',
     password: ''
   })
+  const navigation = useNavigate();
   const [errors, setErrors] = useState({})
   const handleInput = (event) => {
-    setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
+    setValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
   }
 
   const handleSubmit = (event) => {
+    console.log("values: ", values);
     event.preventDefault();
-    setErrors(SignupValidation(values));
-    if(errors.firstName === "" && errors.lastName === "" && errors.email === "" && errors.password === "") {
-      axios.post('http://localhost:8080/signup', values)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    const validation = validate(values);
+    if (validation.isError) {
+      setErrors(validation.messages);
+      console.log("Validation Failed");
+      return
     }
+
+    axios.post('/signup', values)
+      .then(res => {
+        navigation('/');
+        console.log("Success");
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
   }
 
@@ -39,26 +50,26 @@ function Signup() {
         <form action="" onSubmit={handleSubmit}>
           <div className="mb-3 text-start">
             <label htmlFor="firstName" className="form-label">First Name</label>
-            <input 
-            type="text" 
-            placeholder="Enter First Name" 
-            name='firstName' 
-            onChange={handleInput} 
-            className="form-control rounded-0" />
-            {errors.firstName && 
-            <span className='text-danger'>{errors.firstName}</span>}
+            <input
+              type="text"
+              placeholder="Enter First Name"
+              name='firstName'
+              onChange={handleInput}
+              className="form-control rounded-0" />
+            {errors.firstName &&
+              <span className='text-danger'>{errors.firstName}</span>}
           </div>
           <div className="mb-3 text-start">
             <label htmlFor="lastName" className="form-label">Last Name</label>
             <input type="text" placeholder="Enter Last Name" name='lastName' onChange={handleInput} className="form-control rounded-0" />
-            {errors.lastName && 
-            <span className='text-danger'>{errors.lastName}</span>}
+            {errors.lastName &&
+              <span className='text-danger'>{errors.lastName}</span>}
           </div>
           <div className="mb-3 text-start">
             <label htmlFor="email" className="form-label">Email</label>
             <input type="email" placeholder="Enter Email" name='email' onChange={handleInput} className="form-control rounded-0" />
-            {errors.email && 
-            <span className='text-danger'>{errors.email}</span>}
+            {errors.email &&
+              <span className='text-danger'>{errors.email}</span>}
           </div>
           <div className="mb-3 text-start">
             <label htmlFor="password" className="form-label">Password</label>

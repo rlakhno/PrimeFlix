@@ -1,8 +1,8 @@
 // Login.js
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Validation from './LoginValidation';
+import validate from './LoginValidation';
 import axios from 'axios';
 
 function Login() {
@@ -11,14 +11,38 @@ function Login() {
     email: '',
     password: ''
   })
-  const [errors, setErrors] = useState({})
+  const navigation = useNavigate();
+  const [errors, setErrors] = useState({});
   const handleInput = (event) => {
-    setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
+    setValues(prev => ({...prev, [event.target.name]: event.target.value}))
   }
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   setErrors(validation(values));
+  // }
+
   const handleSubmit = (event) => {
+    console.log("values: ", values);
     event.preventDefault();
-    setErrors(Validation(values));
+    const validation = validate(values);
+    if (validation.isError) {
+      setErrors(validation.messages);
+      console.log("Validation Failed");
+      return
+    }
+
+    axios.post('/login', values)
+      .then(res => {
+        navigation('/home');
+        console.log("Success");
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
   }
+
+
   return (
     <div className="d-flex justify-content-center align-items-center bg-primary vh-100" style={{ 
       backgroundImage: "url('https://images.pexels.com/photos/618833/pexels-photo-618833.jpeg')", 

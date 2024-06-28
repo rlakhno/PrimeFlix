@@ -34,29 +34,41 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+
+// Login endpoint
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const query = 'SELECT * FROM users WHERE email = $1';
+    const result = await pool.query(query, [email]);
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    const user = result.rows[0];
+    const match = await bcrypt.compare(password, user.password);
+
+    if (match) {
+      res.status(200).json({ message: 'Login successful' });
+    } else {
+      res.status(401).json({ error: 'Invalid credentials' });
+    }
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 
-// // Login endpoint
-// app.post('/api/login', async (req, res) => {
-//   const { username, password } = req.body;
 
-//   try {
-//     const user = await db.one('SELECT * FROM users WHERE username = $1', [username]);
-//     const match = await bcrypt.compare(password, user.password_hash);
-
-//     if (match) {
-//       res.status(200).json({ message: 'Login successful' });
-//     } else {
-//       res.status(401).json({ error: 'Invalid credentials' });
-//     }
-//   } catch (error) {
-//     console.error('Error during login:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
 
 
