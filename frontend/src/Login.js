@@ -16,10 +16,7 @@ function Login() {
   const handleInput = (event) => {
     setValues(prev => ({...prev, [event.target.name]: event.target.value}))
   }
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   setErrors(validation(values));
-  // }
+ 
 
   const handleSubmit = (event) => {
     console.log("values: ", values);

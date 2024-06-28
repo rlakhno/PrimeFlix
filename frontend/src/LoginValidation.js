@@ -1,28 +1,28 @@
 
 
 function validation(values) {
-  let message = {};
+  let messages = {};
   // Regular expression for basic email validation
   const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   // const password_pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   if (values.email === "") {
-    message.email = "Email should not be empty";
+    messages.email = "Email should not be empty";
   }
   else if (!email_pattern.test(values.email)) {
-    message.email = "Email did not match";
+    messages.email = "Email did not match";
   } else {
-    message.email = "";
+    messages.email = "";
   }
 
   if (values.password === "") {
-    message.password = "Password should not be empty";
+    messages.password = "Password should not be empty";
   } else {
-    message.password = "";
+    messages.password = "";
   }
 
-  const isError = message.email || message.password;
-  return {isError, message};
+  const isError = messages.email || messages.password;
+  return {isError, messages};
 }
 
 export default validation;
