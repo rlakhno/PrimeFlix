@@ -1,0 +1,70 @@
+.home-container {
+  background: #f8f9fa;
+}
+
+.home-header {
+  background-image: url('/public/images/3d-cinema.jpg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 4rem 0;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.home-header .overlay {
+  position: relative;
+  z-index: 1;
+}
+
+.home-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.home-products .card {
+  transition: transform 0.3s;
+}
+
+.home-products .card:hover {
+  transform: translateY(-10px);
+}
+
+.home-products .card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+
+
+
+
+
+
+/* .home-container {
+  background: #f8f9fa;
+}
+
+.home-header .overlay {
+  position: relative;
+  z-index: 1;
+}
+
+.home-products .card {
+  transition: transform 0.3s;
+}
+
+.home-products .card:hover {
+  transform: translateY(-10px);
+}
+
+.home-products .card img {
+  height: 200px;
+  object-fit: cover;
+} */

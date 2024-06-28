@@ -1,6 +1,7 @@
 import { Button, Container, Navbar, Modal } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from "react";
+import logo from './logo1.jpg';
 
 const NavbarComponent = () => {
 
@@ -11,6 +12,16 @@ const NavbarComponent = () => {
   return (
     <>
       <Navbar expand="sm">
+
+        <Navbar.Brand href="/home">
+          <img
+            src={logo}
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+            alt="Logo"
+          /></Navbar.Brand>
+        <Navbar.Brand href="/home">Home</Navbar.Brand>
         <Navbar.Brand href="/store">Store</Navbar.Brand>
         <Navbar.Brand href="/videos">Videos</Navbar.Brand>
         <Navbar.Toggle />
