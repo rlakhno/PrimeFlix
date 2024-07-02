@@ -13,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/library" element={<VideoLibrary />} />
+        <Route path="/videos" element={<VideoLibrary />} />
         <Route path="/video/:id" element={<VideoPlayer />} />
       </Routes>
     </BrowserRouter>
