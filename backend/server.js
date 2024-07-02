@@ -1,14 +1,90 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const pool = require('./db/pool');
+
+//My keys: sk_test_51POi051PxLOehmUIIL9S0xiFaI3zaxfeMpAfrb4MSs6eb9JKI59tc2SRXQXsbYRgOK4Xo5L9oaUQBBH3KK9QjQZI00YwT0o0Ee
+// sk_test_51LnUKJDM1jwCEz8OJG69szv032rIo4X0WrFMaXrqxu9g8fdohsL1y54JEUhFUKrqoBquVjN3AzpIFyrbN915bgcd00O5hqoGCJ
+// Coffee: price_1LnUTFDM1jwCEz8OGoOSXiSM
+// Sunglasses: price_1LnUTxDM1jwCEz8OAqHYTwKQ
+// Camera: price_1LnUUoDM1jwCEz8OvxIcJ7to
+// Stripe 
+const stripe = require('stripe')('sk_test_51POi051PxLOehmUIIL9S0xiFaI3zaxfeMpAfrb4MSs6eb9JKI59tc2SRXQXsbYRgOK4Xo5L9oaUQBBH3KK9QjQZI00YwT0o0Ee');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+// Recommended by Stripe
+app.use(express.static("public"));
+// Parse JSON bodies
+app.use(bodyParser.json());
+
+// Spripe POST request -> checkout
+app.post("/checkout", async (req, res) => {
+  /*
+    req.body.items
+    [
+      {
+        id: 1,
+        quantity: 3
+      }
+    ]
+    Stripe wants it tomlook like this:
+    [
+      {
+        price: 1,
+        quantity: 3
+      }
+    
+    ]
+  */
+  // Stripe calls 'lineItems' for API call
+
+  try {
+
+    console.log("req.body: ", req.body);
+    const items = req.body.items;
+    let lineItems = [];
+    items.forEach((item) => {
+      lineItems.push(
+        {
+          price: item.id,
+          quantity: item.quantity
+        }
+      )
+
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: lineItems,
+      mode: 'payment',
+      success_url: "http://localhost:3000/success",
+      cancel_url: "http://localhost:3000/cancel"
+    });
+
+    // const session = await stripe.checkout.session.create({
+    //   line_item: lineItems,
+    //   mode: 'payment',
+    //   success_url: "hppt://localhost:3000/success",
+    //   cancel_url: "hppt://localhost:3000/cancel"
+    // });
+
+    res.send(JSON.stringify({
+      url: session.url
+    }));
+
+  } catch (error) {
+    console.error('Error during checkout:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+
+
+});
+
 
 // Signup endpoint
 app.post('/signup', async (req, res) => {
