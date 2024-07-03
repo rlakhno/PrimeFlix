@@ -12,13 +12,14 @@ import Cancel from './pages/Cancel';
 import Store from './pages/Store';
 import Success from './pages/Success';
 import Videos from './pages/Videos';
+import CartProvider from './CartContext';
 
 function App() {
   return (
-    // <Container>
+    <CartProvider>
       <BrowserRouter>
-      <Container>
-        <NavbarComponent />
+        <Container>
+          <NavbarComponent />
         </Container>
         <Routes>
           <Route path='/' element={<Login />}></Route>
@@ -29,10 +30,8 @@ function App() {
           <Route path='/store' element={<Store />}></Route>
           <Route path='/videos' element={<Videos />}></Route>
         </Routes>
-
-
       </BrowserRouter>
-    // </Container>
+    </CartProvider>
   );
 }
 

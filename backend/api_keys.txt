@@ -1,0 +1,10 @@
+sk_test_51POi051PxLOehmUIIL9S0xiFaI3zaxfeMpAfrb4MSs6eb9JKI59tc2SRXQXsbYRgOK4Xo5L9oaUQBBH3KK9QjQZI00YwT0o0Ee
+Coffee: price_1PX6XL1PxLOehmUImH80IHbR
+Sunglasses: price_1PX6mJ1PxLOehmUIbX85yFVG
+Camera: price_1PX6np1PxLOehmUI1bbQrTaZ 
+
+new staff
+
+Coffee: prod_QNsHmtPoAZ6dqH
+Sunglasses: prod_QNsXLnTHRNGzGf
+Camera: prod_QNsYP7fW80N5Vy
