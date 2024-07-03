@@ -11,8 +11,9 @@ import { Container } from 'react-bootstrap'
 import Cancel from './pages/Cancel';
 import Store from './pages/Store';
 import Success from './pages/Success';
-import Videos from './pages/Videos';
 import CartProvider from './CartContext';
+import VideoLibrary from './components/VideoLibrary';
+import VideoPlayer from './components/VideoPlayer';
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
           <Route path='/success' element={<Success />}></Route>
           <Route path='/cancel' element={<Cancel />}></Route>
           <Route path='/store' element={<Store />}></Route>
-          <Route path='/videos' element={<Videos />}></Route>
+          <Route path='/videos' element={<VideoLibrary />}></Route>
+          <Route path="/video/:id" element={<VideoPlayer />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>
