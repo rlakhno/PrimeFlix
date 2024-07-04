@@ -14,12 +14,12 @@ function Login() {
   const navigation = useNavigate();
   const [errors, setErrors] = useState({});
   const handleInput = (event) => {
-    setValues(prev => ({...prev, [event.target.name]: event.target.value}))
+    setValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
   }
- 
 
+
+  
   const handleSubmit = (event) => {
-    console.log("values: ", values);
     event.preventDefault();
     const validation = validate(values);
     if (validation.isError) {
@@ -30,10 +30,16 @@ function Login() {
 
     axios.post('/login', values)
       .then(res => {
-        navigation('/home');
-        console.log("Success");
+        if (res.data.login) {
+          navigation('/home');
+          console.log("Success");
+        } else {
+          alert("Invalid Credentials!");
+        }
+
       })
       .catch(err => {
+        alert("Invalid Credentials!");
         console.log(err);
       });
 
@@ -41,9 +47,9 @@ function Login() {
 
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-primary vh-100" style={{ 
-      backgroundImage: "url('/3d-cinema.jpg')", 
-      backgroundSize: 'cover', 
+    <div className="d-flex justify-content-center align-items-center bg-primary vh-100" style={{
+      backgroundImage: "url('/3d-cinema.jpg')",
+      backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     }}>
@@ -53,14 +59,14 @@ function Login() {
           <div className="mb-3 text-start">
             <label htmlFor="email" className="form-label">Email</label>
             <input type="email" placeholder="Enter Email" name='email' onChange={handleInput} className="form-control rounded-0" />
-            {errors.email && 
-            <span className='text-danger'>{errors.email}</span>}
+            {errors.email &&
+              <span className='text-danger'>{errors.email}</span>}
           </div>
           <div className="mb-3 text-start">
             <label htmlFor="password" className="form-label">Password</label>
             <input type="password" placeholder="Enter Password" name='password' onChange={handleInput} className="form-control rounded-0" />
-            {errors.password && 
-            <span className='text-danger'>{errors.password}</span>}
+            {errors.password &&
+              <span className='text-danger'>{errors.password}</span>}
           </div>
           <button type='submit' className="btn btn-success w-100 mb-2">Login</button>
           <p className="text-center">Agree to the terms and conditions</p>
@@ -71,7 +77,7 @@ function Login() {
   );
 
 
- 
+
 }
 
 export default Login;
