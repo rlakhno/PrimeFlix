@@ -15,6 +15,7 @@ import CartProvider from './CartContext';
 import VideoLibrary from './components/VideoLibrary';
 import VideoPlayer from './components/VideoPlayer';
 import { SessionProvider } from './SessionContext';
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
   return (
@@ -25,14 +26,18 @@ function App() {
             <NavbarComponent />
           </Container>
           <Routes>
-            <Route path='/' element={<Login />}></Route>
-            <Route path='/signup' element={<Signup />}></Route>
-            <Route path='/home' element={<Home />}></Route>
-            <Route path='/success' element={<Success />}></Route>
-            <Route path='/cancel' element={<Cancel />}></Route>
-            <Route path='/store' element={<Store />}></Route>
-            <Route path='/videos' element={<VideoLibrary />}></Route>
-            <Route path="/video/:id" element={<VideoPlayer />} />
+            <Route path='/' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/home' 
+            element={<ProtectedRoute element={Home} />} />
+            <Route path='/success' element={<Success />} />
+            <Route path='/cancel' element={<Cancel />} />
+            <Route path='/store' 
+            element={<ProtectedRoute element={Store} />} />
+            <Route path='/videos' 
+            element={<ProtectedRoute element={VideoLibrary} />} />
+            <Route path="/video/:id" 
+            element={<ProtectedRoute element={VideoPlayer} />} />
           </Routes>
         </BrowserRouter>
       </CartProvider>
