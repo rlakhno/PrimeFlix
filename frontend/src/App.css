@@ -36,3 +36,52 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.video-library {
+  padding: 20px;
+}
+
+.video-row {
+  display: flex;
+  overflow-x: scroll;
+  padding: 20px 0;
+}
+
+.video-row::-webkit-scrollbar {
+  display: none;
+}
+
+.video-row li {
+  margin-right: 10px;
+  list-style: none;
+}
+
+.video-row img {
+  width: 200px;
+  height: 112.5px;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.video-row img:hover {
+  transform: scale(1.1);
+}
+
+
+.videoplayer-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.video-info-container {
+  margin-top: 20px;
+}

@@ -1,39 +1,112 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import '../App.css';
+
+const PEXELS_API_KEY = 'jbH4a0Tfg1s0gbRnNWVZbess9dh9XMubtqci5ej9WzJaJLoKz9EZUfzd';
+
+const fetchVideos = async (query) => {
+  const response = await axios.get('https://api.pexels.com/videos/search', {
+    headers: {
+      Authorization: PEXELS_API_KEY,
+    },
+    params: {
+      query,
+      per_page: 10,
+    },
+  });
+  return response.data.videos;
+};
 
 const VideoLibrary = () => {
-  const videos = [
-    { id: 1, title: 'good news', url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4' },
-    { id: 2, title: 'zoo', url: 'https://www.youtube.com/watch?v=jNQXAC9IVRw' },
-    // Add more videos as needed
-  ];
+  const [comedyVideos, setComedyVideos] = useState([]);
+  const [dramaVideos, setDramaVideos] = useState([]);
+  const [actionVideos, setActionVideos] = useState([]);
+  const [horrorVideos, setHorrorVideos] = useState([]);
+  const [natureVideos, setNatureVideos] = useState([]);
+  
+  useEffect(() => {
+    const fetchAllVideos = async () => {
+      const comedy = await fetchVideos('comedy');
+      const drama = await fetchVideos('drama');
+      const action = await fetchVideos('action');
+      const horror = await fetchVideos('horror');
+      const nature = await fetchVideos('nature');
+      setComedyVideos(comedy);
+      setDramaVideos(drama);
+      setActionVideos(action);
+      setHorrorVideos(horror);
+      setNatureVideos(nature);
+    };
+
+    fetchAllVideos();
+  }, []);
 
   return (
-    <div>
-      <h1>Video Library</h1>
-      <ul>
-      {/* {genres.map(genre => () */}
-          <li>
-            {/* video genres container */}
-            
-            <ul>
-              {videos.map(video => (
-                <li key={video.id}>
-                  <Link to={`/video/${video.id}`}>{video.title}</Link>
-                </li>
-              ))}
-            </ul>
-
-        </li>
-    </ul>
+    <div className="video-library">
+      <div>
+        <h2>Comedy</h2>
+        <ul className="video-row">
+          {comedyVideos.map((video) => (
+            <li key={video.id}>
+              <Link to={`/video/${video.id}?url=${encodeURIComponent(video.video_files[0].link)}`}>
+                <img src={video.image} alt={video.title} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2>Drama</h2>
+        <ul className="video-row">
+          {dramaVideos.map((video) => (
+            <li key={video.id}>
+              <Link to={`/video/${video.id}?url=${encodeURIComponent(video.video_files[0].link)}`}>
+                <img src={video.image} alt={video.title} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2>Action</h2>
+        <ul className="video-row">
+          {actionVideos.map((video) => (
+            <li key={video.id}>
+              <Link to={`/video/${video.id}?url=${encodeURIComponent(video.video_files[0].link)}`}>
+                <img src={video.image} alt={video.title} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2>Horror</h2>
+        <ul className="video-row">
+          {horrorVideos.map((video) => (
+            <li key={video.id}>
+              <Link to={`/video/${video.id}?url=${encodeURIComponent(video.video_files[0].link)}`}>
+                <img src={video.image} alt={video.title} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2>Nature</h2>
+        <ul className="video-row">
+          {natureVideos.map((video) => (
+            <li key={video.id}>
+              <Link to={`/video/${video.id}?url=${encodeURIComponent(video.video_files[0].link)}`}>
+                <img src={video.image} alt={video.title} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
 
 export default VideoLibrary;
-
-// ideally we map through genres (ACTION, ANIMATED, COMEDY) to form horizontal rows. Then map through api results (that match the genre) and fill the rows.
-
-//Each title should show cover, bring you to video player when clicked, perhaps 
-
-// BUILD LIBRARY AND API REQUESTS
