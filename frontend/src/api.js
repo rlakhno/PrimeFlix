@@ -6,6 +6,7 @@ export async function fetchSessionData() {
   }
   return response.json();
 }
+
 export async function logout() {
   const response = await fetch('/logout');
   if (!response.ok) {

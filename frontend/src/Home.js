@@ -13,20 +13,44 @@ function Home() {
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
-   // Authorization
-   useEffect(() => {
-    axios.get('/home')
-    .then( res => {
-      if (res.data.valid) {
-        setName(res.data.username);
-      } else {
-        navigate('/');
+  
+  function checkCookie(cookieName) {
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+      if (name === cookieName) {
+        return true; // Cookie is present
       }
-    })
-    .catch(err => console.log(err))
+    }
+    return false; // Cookie is not present
+  }
+  
+  // Example usage
+  if (checkCookie('user')) {
+    console.log('sessionId cookie is present');
+    // setName('user');
+  } else {
+    console.log('sessionId cookie is not present');
+  }
+  
 
-  }, [])
+  //   // console.log("Parsed user: ", res.cookie.user);
+  // //  Authorization
+  //  useEffect(() => {
+  //   axios.get('/home')
+  //   .then( res => {
+  //     console.log("res.data.valid from Home: ", res.cookie.user);
+  //     console.log("Parsed user: ", res.cookie);
+  //     // if (res.data.valid) {
+        
+  //     //   setName(res.data.username);
+  //     // } else {
+  //     //   navigate('/');
+  //     // }
+  //   })
+  //   .catch(err => console.log(err))
 
+  // }, [])
 
   return (
     <div className="home-container">

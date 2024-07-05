@@ -7,18 +7,22 @@ import { fetchSessionData, logout as apiLogout } from './api.js';
 const SessionContext = createContext();
 
 export function SessionProvider({ children }) {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState({ valid: false });
 
   useEffect(() => {
+    // console.log("Parsed user: ", res.cookie.user);
     fetchSessionData()
-      .then(data => setSession(data))
-      .catch(err => console.error('Failed to fetch session data', err));
+      .then(data => setSession({ ...data, valid: true}))
+      .catch(err => {console.error('Failed to fetch session data', err);
+      // setSession({ valid: false });
+  });
+      
   }, []);
 
   const logout = async () => {
     try {
       await apiLogout();
-      setSession(null);
+      setSession({ valid: false });
       // You might want to redirect the user after logout
       window.location.href = "/";
     } catch (err) {

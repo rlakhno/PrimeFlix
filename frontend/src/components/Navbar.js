@@ -16,9 +16,9 @@ const NavbarComponent = () => {
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
-  const { logout } = useSession();
+  const { session, logout } = useSession();
 
-  //  // Logout function
+   // Logout function
   //  const logout = async () => {
   //   try {
   //     // await axios.post('http://localhost:8080/logout');

@@ -15,9 +15,18 @@ import CartProvider from './CartContext';
 import VideoLibrary from './components/VideoLibrary';
 import VideoPlayer from './components/VideoPlayer';
 import { SessionProvider } from './SessionContext';
-import ProtectedRoute from './ProtectedRoute';
+// import ProtectedRoute from './ProtectedRoute';
 
 function App() {
+
+  // Function to get the session cookie
+  // const getSessionCookie = () => {
+  //   const match = document.cookie.split('; ').find(row => row.startsWith('userId='));
+  //   return match ? match.split('=')[1] : null;
+  // };
+
+  // const sessionCookie = getSessionCookie();
+
   return (
     <SessionProvider>
       <CartProvider>
@@ -28,16 +37,12 @@ function App() {
           <Routes>
             <Route path='/' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
-            <Route path='/home' 
-            element={<ProtectedRoute element={Home} />} />
             <Route path='/success' element={<Success />} />
             <Route path='/cancel' element={<Cancel />} />
-            <Route path='/store' 
-            element={<ProtectedRoute element={Store} />} />
-            <Route path='/videos' 
-            element={<ProtectedRoute element={VideoLibrary} />} />
-            <Route path="/video/:id" 
-            element={<ProtectedRoute element={VideoPlayer} />} />
+            <Route path='/home' element={<Home />} />
+            <Route path='/store' element={<Store />} />
+            <Route path='/videos' element={<VideoLibrary />}  />
+            <Route path="/video/:id" element={<VideoPlayer />}  />
           </Routes>
         </BrowserRouter>
       </CartProvider>

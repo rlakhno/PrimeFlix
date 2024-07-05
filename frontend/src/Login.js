@@ -13,11 +13,10 @@ function Login() {
   })
   const navigation = useNavigate();
   const [errors, setErrors] = useState({});
+
   const handleInput = (event) => {
     setValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
   }
-
-
   
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -27,19 +26,15 @@ function Login() {
       console.log("Validation Failed");
       return
     }
-
     axios.post('/login', values)
       .then(res => {
         if (res.data.login) {
           navigation('/home');
-          console.log("Success");
-        } else {
-          alert("Invalid Credentials!");
+          console.log("Success: ", res.data.login);
         }
-
       })
       .catch(err => {
-        alert("Invalid Credentials!");
+        alert("⛔ Invalid Credentials!");
         console.log(err);
       });
 
