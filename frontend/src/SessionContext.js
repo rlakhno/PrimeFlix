@@ -1,20 +1,25 @@
 
 
 // src/SessionContext.js
+
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { fetchSessionData, logout as apiLogout } from './api.js';
+import { useNavigate } from 'react-router-dom';
 
 const SessionContext = createContext();
 
 export function SessionProvider({ children }) {
   const [session, setSession] = useState({ valid: false });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // console.log("Parsed user: ", res.cookie.user);
     fetchSessionData()
-      .then(data => setSession({ ...data, valid: true}))
+      .then(data => {
+        if(data.valid) {
+          setSession({ ...data, valid: true})
+        }
+    })
       .catch(err => {console.error('Failed to fetch session data', err);
-      // setSession({ valid: false });
   });
       
   }, []);
@@ -23,8 +28,9 @@ export function SessionProvider({ children }) {
     try {
       await apiLogout();
       setSession({ valid: false });
+      sessionStorage.removeItem("valid");
       // You might want to redirect the user after logout
-      window.location.href = "/";
+      navigate('/')
     } catch (err) {
       console.error('Failed to logout', err);
     }
@@ -40,5 +46,4 @@ export function SessionProvider({ children }) {
 export function useSession() {
   return useContext(SessionContext);
 }
-
 

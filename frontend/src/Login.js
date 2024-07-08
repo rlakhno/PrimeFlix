@@ -1,5 +1,5 @@
 // Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import validate from './LoginValidation';
@@ -11,26 +11,39 @@ function Login() {
     email: '',
     password: ''
   })
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
+  // Set Axios defaults
+  axios.defaults.withCredentials = true;
+
+  //  Authorization
+  useEffect(() => {
+    let data = sessionStorage.getItem("valid");
+    if (data === "true" ) {
+      navigate('/home');
+    }
+  }, [])
   const handleInput = (event) => {
     setValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
   }
-  
+
+  // Set Axios defaults
+  axios.defaults.withCredentials = true;
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const validation = validate(values);
     if (validation.isError) {
       setErrors(validation.messages);
-      console.log("Validation Failed");
       return
     }
-    axios.post('/login', values)
+    axios.post('http://localhost:8080/login', values)
       .then(res => {
-        if (res.data.login) {
-          navigation('/home');
-          console.log("Success: ", res.data.login);
+        if (res.data.valid) {
+          window.sessionStorage.setItem("valid", true);
+          navigate('/home');
+
         }
       })
       .catch(err => {

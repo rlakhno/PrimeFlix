@@ -14,23 +14,17 @@ import Success from './pages/Success';
 import CartProvider from './CartContext';
 import VideoLibrary from './components/VideoLibrary';
 import VideoPlayer from './components/VideoPlayer';
+import { Profile } from './components/Profile';
 import { SessionProvider } from './SessionContext';
 // import ProtectedRoute from './ProtectedRoute';
 
 function App() {
 
-  // Function to get the session cookie
-  // const getSessionCookie = () => {
-  //   const match = document.cookie.split('; ').find(row => row.startsWith('userId='));
-  //   return match ? match.split('=')[1] : null;
-  // };
-
-  // const sessionCookie = getSessionCookie();
 
   return (
-    <SessionProvider>
-      <CartProvider>
-        <BrowserRouter>
+    <BrowserRouter>
+      <SessionProvider>
+        <CartProvider>
           <Container>
             <NavbarComponent />
           </Container>
@@ -41,12 +35,13 @@ function App() {
             <Route path='/cancel' element={<Cancel />} />
             <Route path='/home' element={<Home />} />
             <Route path='/store' element={<Store />} />
-            <Route path='/videos' element={<VideoLibrary />}  />
-            <Route path="/video/:id" element={<VideoPlayer />}  />
+            <Route path='/videos' element={<VideoLibrary />} />
+            <Route path="/video/:id" element={<VideoPlayer />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
-        </BrowserRouter>
-      </CartProvider>
-    </SessionProvider>
+        </CartProvider>
+      </SessionProvider>
+    </BrowserRouter>
   );
 }
 

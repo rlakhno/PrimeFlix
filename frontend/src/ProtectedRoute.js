@@ -1,37 +1,37 @@
-// src/ProtectedRoute.js
+// // src/ProtectedRoute.js
 
-import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import axios from 'axios';
+// import React, { useEffect, useState } from 'react';
+// import { Navigate } from 'react-router-dom';
+// import axios from 'axios';
 
-const ProtectedRoute = ({ component: Component, sessionCookie }) => {
-  const [session, setSession] = useState({ valid: false, loading: true });
+// const ProtectedRoute = ({ component: Component, sessionCookie }) => {
+//   const [session, setSession] = useState({ valid: false, loading: true });
 
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const response = await axios.get('/api/check-session', {
-          headers: { 'Authorization': `Bearer ${sessionCookie}` },
-          withCredentials: true
-        });
-        setSession({ valid: response.data.valid, loading: false });
-      } catch (error) {
-        console.error('Error checking session:', error);
-        setSession({ valid: false, loading: false });
-      }
-    };
+//   useEffect(() => {
+//     const checkSession = async () => {
+//       try {
+//         const response = await axios.get('/api/check-session', {
+//           headers: { 'Authorization': `Bearer ${sessionCookie}` },
+//           withCredentials: true
+//         });
+//         setSession({ valid: response.data.valid, loading: false });
+//       } catch (error) {
+//         console.error('Error checking session:', error);
+//         setSession({ valid: false, loading: false });
+//       }
+//     };
 
-    checkSession();
-  }, [sessionCookie]);
+//     checkSession();
+//   }, [sessionCookie]);
 
-  if (session.loading) {
-    return <div>Loading...</div>;
-  }
+//   if (session.loading) {
+//     return <div>Loading...</div>;
+//   }
 
-  return session.valid ? <Component /> : <Navigate to="/" />;
-};
+//   return session.valid ? <Component /> : <Navigate to="/" />;
+// };
 
-export default ProtectedRoute;
+// export default ProtectedRoute;
 
 
 

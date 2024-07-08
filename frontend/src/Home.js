@@ -1,61 +1,25 @@
 
 import { React, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from "axios";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
-import { useSession } from './SessionContext';
 
 function Home() {
 
-  const { session, logout } = useSession();
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
-  
-  function checkCookie(cookieName) {
-    const cookies = document.cookie.split(';');
-    for (let cookie of cookies) {
-      const [name, value] = cookie.trim().split('=');
-      if (name === cookieName) {
-        return true; // Cookie is present
-      }
-    }
-    return false; // Cookie is not present
-  }
-  
-  // Example usage
-  if (checkCookie('user')) {
-    console.log('sessionId cookie is present');
-    // setName('user');
-  } else {
-    console.log('sessionId cookie is not present');
-  }
-  
-
-  //   // console.log("Parsed user: ", res.cookie.user);
-  // //  Authorization
-  //  useEffect(() => {
-  //   axios.get('/home')
-  //   .then( res => {
-  //     console.log("res.data.valid from Home: ", res.cookie.user);
-  //     console.log("Parsed user: ", res.cookie);
-  //     // if (res.data.valid) {
-        
-  //     //   setName(res.data.username);
-  //     // } else {
-  //     //   navigate('/');
-  //     // }
-  //   })
-  //   .catch(err => console.log(err))
-
-  // }, [])
+  //  Authorization
+   useEffect(() => {
+    let data = sessionStorage.getItem("valid");
+    if(data === "false" || data === null) {
+       navigate('/');
+     }
+  }, [])
 
   return (
     <div className="home-container">
       <header className="home-header text-center">
-        <h4>logged in as {name}</h4>
         <div className="overlay">
           <h1 className="display-4">Welcome to Primflix Video World</h1>
           <p className="lead">Experience the best entertainment with our exclusive subscriptions.</p>
