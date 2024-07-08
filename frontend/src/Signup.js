@@ -32,19 +32,16 @@ function Signup() {
   }, [alertMessage]);
 
   const handleSubmit = (event) => {
-    console.log("values: ", values);
     event.preventDefault();
     const validation = validate(values);
     if (validation.isError) {
       setErrors(validation.messages);
-      console.log("Validation Failed");
       return
     }
 
     axios.post('/signup', values)
       .then(res => {
         navigation('/');
-        console.log("Success");
         // Assuming signup API call is successful
         alert('Signed up Successfully');
       })

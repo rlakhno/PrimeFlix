@@ -1,37 +1,25 @@
 
 import { React, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from "axios";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
-import { useSession } from './SessionContext';
 
 function Home() {
 
-  const { session, logout } = useSession();
   const [name, setName] = useState('');
   const navigate = useNavigate();
 
-   // Authorization
+  //  Authorization
    useEffect(() => {
-    axios.get('/home')
-    .then( res => {
-      if (res.data.valid) {
-        setName(res.data.username);
-      } else {
-        navigate('/');
-      }
-    })
-    .catch(err => console.log(err))
-
+    let data = sessionStorage.getItem("valid");
+    if(data === "false" || data === null) {
+       navigate('/');
+     }
   }, [])
-
 
   return (
     <div className="home-container">
       <header className="home-header text-center">
-        <h4>logged in as {name}</h4>
         <div className="overlay">
           <h1 className="display-4">Welcome to Primflix Video World</h1>
           <p className="lead">Experience the best entertainment with our exclusive subscriptions.</p>

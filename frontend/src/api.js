@@ -1,15 +1,12 @@
+
 // src/api.js
-export async function fetchSessionData() {
-  const response = await fetch('/home');
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
-}
-export async function logout() {
-  const response = await fetch('/logout');
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.text();
-}
+import axios from 'axios';
+
+export const fetchSessionData = async () => {
+  const response = await axios.get('http://localhost:8080/session', { withCredentials: true });
+  return response.data;
+};
+
+export const logout = async () => {
+  await axios.get('http://localhost:8080/logout', { withCredentials: true });
+};

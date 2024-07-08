@@ -1,12 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
+import { useSession } from '../SessionContext';
 
 const PEXELS_API_KEY = 'jbH4a0Tfg1s0gbRnNWVZbess9dh9XMubtqci5ej9WzJaJLoKz9EZUfzd';
 
 const fetchVideos = async (query) => {
+  // Set Axios defaults
+  //  axios.defaults.withCredentials = true;
+
   const response = await axios.get('https://api.pexels.com/videos/search', {
     headers: {
       Authorization: PEXELS_API_KEY,
@@ -25,7 +29,15 @@ const VideoLibrary = () => {
   const [actionVideos, setActionVideos] = useState([]);
   const [horrorVideos, setHorrorVideos] = useState([]);
   const [natureVideos, setNatureVideos] = useState([]);
-  
+  const { session } = useSession();
+  const navigate = useNavigate();
+
+  // Get saved data from sessionStorage
+  let data = sessionStorage.getItem("valid");
+  if (data === "false" || data === null) {
+    navigate('/');
+  }
+
   useEffect(() => {
     const fetchAllVideos = async () => {
       const comedy = await fetchVideos('comedy');
@@ -42,6 +54,7 @@ const VideoLibrary = () => {
 
     fetchAllVideos();
   }, []);
+
 
   return (
     <div className="video-library">

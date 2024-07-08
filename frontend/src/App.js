@@ -14,34 +14,34 @@ import Success from './pages/Success';
 import CartProvider from './CartContext';
 import VideoLibrary from './components/VideoLibrary';
 import VideoPlayer from './components/VideoPlayer';
+import { Profile } from './components/Profile';
 import { SessionProvider } from './SessionContext';
-import ProtectedRoute from './ProtectedRoute';
+// import ProtectedRoute from './ProtectedRoute';
 
 function App() {
+
+
   return (
-    <SessionProvider>
-      <CartProvider>
-        <BrowserRouter>
+    <BrowserRouter>
+      <SessionProvider>
+        <CartProvider>
           <Container>
             <NavbarComponent />
           </Container>
           <Routes>
             <Route path='/' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
-            <Route path='/home' 
-            element={<ProtectedRoute element={Home} />} />
             <Route path='/success' element={<Success />} />
             <Route path='/cancel' element={<Cancel />} />
-            <Route path='/store' 
-            element={<ProtectedRoute element={Store} />} />
-            <Route path='/videos' 
-            element={<ProtectedRoute element={VideoLibrary} />} />
-            <Route path="/video/:id" 
-            element={<ProtectedRoute element={VideoPlayer} />} />
+            <Route path='/home' element={<Home />} />
+            <Route path='/store' element={<Store />} />
+            <Route path='/videos' element={<VideoLibrary />} />
+            <Route path="/video/:id" element={<VideoPlayer />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
-        </BrowserRouter>
-      </CartProvider>
-    </SessionProvider>
+        </CartProvider>
+      </SessionProvider>
+    </BrowserRouter>
   );
 }
 
