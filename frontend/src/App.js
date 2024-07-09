@@ -1,4 +1,4 @@
-
+// src/App.js
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,26 +14,34 @@ import Success from './pages/Success';
 import CartProvider from './CartContext';
 import VideoLibrary from './components/VideoLibrary';
 import VideoPlayer from './components/VideoPlayer';
+import { Profile } from './components/Profile';
+import { SessionProvider } from './SessionContext';
+// import ProtectedRoute from './ProtectedRoute';
 
 function App() {
+
+
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <Container>
-          <NavbarComponent />
-        </Container>
-        <Routes>
-          <Route path='/' element={<Login />}></Route>
-          <Route path='/signup' element={<Signup />}></Route>
-          <Route path='/home' element={<Home />}></Route>
-          <Route path='/success' element={<Success />}></Route>
-          <Route path='/cancel' element={<Cancel />}></Route>
-          <Route path='/store' element={<Store />}></Route>
-          <Route path='/videos' element={<VideoLibrary />}></Route>
-          <Route path="/video/:id" element={<VideoPlayer />} />
-        </Routes>
-      </BrowserRouter>
-    </CartProvider>
+    <BrowserRouter>
+      <SessionProvider>
+        <CartProvider>
+          <Container>
+            <NavbarComponent />
+          </Container>
+          <Routes>
+            <Route path='/' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/success' element={<Success />} />
+            <Route path='/cancel' element={<Cancel />} />
+            <Route path='/home' element={<Home />} />
+            <Route path='/store' element={<Store />} />
+            <Route path='/videos' element={<VideoLibrary />} />
+            <Route path="/video/:id" element={<VideoPlayer />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </CartProvider>
+      </SessionProvider>
+    </BrowserRouter>
   );
 }
 

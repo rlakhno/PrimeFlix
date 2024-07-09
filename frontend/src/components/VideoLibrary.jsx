@@ -1,8 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
+import { useSession } from '../SessionContext';
+
 
 const API_KEY = '1215575910ec222af8c6a604dac74b2a';
 
@@ -112,4 +114,3 @@ const VideoLibrary = () => {
 };
 
 export default VideoLibrary;
-

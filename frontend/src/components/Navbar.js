@@ -1,17 +1,34 @@
 
 import { Button, Navbar, Modal } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import logo from './logo1.jpg';
 import { CartContext } from '../CartContext';
 import CartProduct from "./CartProduct";
+import { useNavigate } from "react-router-dom";
+import { useSession } from '../SessionContext';
+import axios from "axios";
 
 const NavbarComponent = () => {
-
+  const { session, logout } = useSession();
+  const [name, setName] = useState();
   const cart = useContext(CartContext);
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
+  const navigate = useNavigate();
+  
+
+  // useEffect(() => {
+  //   console.log(session.firstName);
+  //   const newName = session.firstName
+  //   setName(newName);
+  // }, []);
+
+  const removeName = () => {
+    logout()
+    setName('')
+  }
 
   // Stripe checkout
   const checkout = async () => {
@@ -22,21 +39,22 @@ const NavbarComponent = () => {
       },
       body: JSON.stringify({ items: cart.items })
     })
-    .then((response) => {
-      return response.json();
-    })
-    .then((response) => {
-      if (response.url) {
-        // Forwarding user to Stripe
-        window.location.assign(response.url);
-      }
-    })
-    .catch((error) => {
-      console.error("Error during checkout:", error);
-    });
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        if (response.url) {
+          // Forwarding user to Stripe
+          window.location.assign(response.url);
+        }
+      })
+      .catch((error) => {
+        console.error("Error during checkout:", error);
+      });
   }
 
   const productsCount = cart.items.reduce((sum, product) => sum + product.quantity, 0);
+
 
   return (
     <>
@@ -53,6 +71,9 @@ const NavbarComponent = () => {
         <Navbar.Brand href="/home">Home</Navbar.Brand>
         <Navbar.Brand href="/store">Store</Navbar.Brand>
         <Navbar.Brand href="/videos">Videos</Navbar.Brand>
+        <Navbar.Brand href="/profile">Profile</Navbar.Brand>
+        <Button onClick={removeName} >Logout</Button>
+        <Navbar.Brand href="/profile">Hi <strong>{session.firstName}</strong></Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Button onClick={handleShow}>Cart ({productsCount} Items)</Button>

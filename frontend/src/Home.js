@@ -1,10 +1,22 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { React, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
 
 function Home() {
+
+  const [name, setName] = useState('');
+  const navigate = useNavigate();
+
+  //  Authorization
+   useEffect(() => {
+    let data = sessionStorage.getItem("valid");
+    if(data === "false" || data === null) {
+       navigate('/');
+     }
+  }, [])
+
   return (
     <div className="home-container">
       <header className="home-header text-center">

@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect  } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import validate from './SignupValidation'
 import axios from 'axios'
 
@@ -17,20 +19,31 @@ function Signup() {
     setValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
   }
 
+  const [alertMessage, setAlertMessage] = useState('');
+
+  useEffect(() => {
+    if (alertMessage) {
+      const timer = setTimeout(() => {
+        setAlertMessage('');
+      }, 3000); // Adjust the timeout as needed
+
+      return () => clearTimeout(timer);
+    }
+  }, [alertMessage]);
+
   const handleSubmit = (event) => {
-    console.log("values: ", values);
     event.preventDefault();
     const validation = validate(values);
     if (validation.isError) {
       setErrors(validation.messages);
-      console.log("Validation Failed");
       return
     }
 
     axios.post('/signup', values)
       .then(res => {
         navigation('/');
-        console.log("Success");
+        // Assuming signup API call is successful
+        alert('Signed up Successfully');
       })
       .catch(err => {
         console.log(err);

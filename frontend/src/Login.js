@@ -1,5 +1,5 @@
 // Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import validate from './LoginValidation';
@@ -11,29 +11,43 @@ function Login() {
     email: '',
     password: ''
   })
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+
+  // Set Axios defaults
+  axios.defaults.withCredentials = true;
+
+  //  Authorization
+  useEffect(() => {
+    let data = sessionStorage.getItem("valid");
+    if (data === "true" ) {
+      navigate('/home');
+    }
+  }, [])
   const handleInput = (event) => {
-    setValues(prev => ({...prev, [event.target.name]: event.target.value}))
+    setValues(prev => ({ ...prev, [event.target.name]: event.target.value }))
   }
- 
+
+  // Set Axios defaults
+  axios.defaults.withCredentials = true;
 
   const handleSubmit = (event) => {
-    console.log("values: ", values);
     event.preventDefault();
     const validation = validate(values);
     if (validation.isError) {
       setErrors(validation.messages);
-      console.log("Validation Failed");
       return
     }
-
-    axios.post('/login', values)
+    axios.post('http://localhost:8080/login', values)
       .then(res => {
-        navigation('/home');
-        console.log("Success");
+        if (res.data.valid) {
+          window.sessionStorage.setItem("valid", true);
+          navigate('/home');
+
+        }
       })
       .catch(err => {
+        alert("⛔ Invalid Credentials!");
         console.log(err);
       });
 
@@ -41,9 +55,9 @@ function Login() {
 
 
   return (
-    <div className="d-flex justify-content-center align-items-center bg-primary vh-100" style={{ 
-      backgroundImage: "url('/3d-cinema.jpg')", 
-      backgroundSize: 'cover', 
+    <div className="d-flex justify-content-center align-items-center bg-primary vh-100" style={{
+      backgroundImage: "url('/3d-cinema.jpg')",
+      backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     }}>
@@ -53,14 +67,14 @@ function Login() {
           <div className="mb-3 text-start">
             <label htmlFor="email" className="form-label">Email</label>
             <input type="email" placeholder="Enter Email" name='email' onChange={handleInput} className="form-control rounded-0" />
-            {errors.email && 
-            <span className='text-danger'>{errors.email}</span>}
+            {errors.email &&
+              <span className='text-danger'>{errors.email}</span>}
           </div>
           <div className="mb-3 text-start">
             <label htmlFor="password" className="form-label">Password</label>
             <input type="password" placeholder="Enter Password" name='password' onChange={handleInput} className="form-control rounded-0" />
-            {errors.password && 
-            <span className='text-danger'>{errors.password}</span>}
+            {errors.password &&
+              <span className='text-danger'>{errors.password}</span>}
           </div>
           <button type='submit' className="btn btn-success w-100 mb-2">Login</button>
           <p className="text-center">Agree to the terms and conditions</p>
@@ -71,7 +85,7 @@ function Login() {
   );
 
 
- 
+
 }
 
 export default Login;
