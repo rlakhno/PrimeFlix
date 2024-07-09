@@ -1,27 +1,43 @@
-import React from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
+import StarRating from './starRating';
 import '../App.css';
+
 
 const VideoPlayer = () => {
   const { id } = useParams();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const videoUrl = queryParams.get('url');
+  const videoUrl = queryParams.get('url') ? `https://www.youtube.com/watch?v=${queryParams.get('url')}` : null;
+  const videoTitle = queryParams.get('title');
+  const videoDescription = queryParams.get('description');
+  const videoGenre = queryParams.get('genre');
+  const videoReleaseDate = queryParams.get('release_date');
+  const videoRuntime = queryParams.get('runtime');
+  const videoActors = queryParams.get('actors');
+  const rating = (queryParams.get('rating'));
+
+  
 
   if (!videoUrl) {
     return <p>Video not found</p>;
   }
 
   return (
-    <div>
-      <div>
-        <h1>**title**</h1>
+    <div className="video-library">
+      <div className="videoplayer-element">
+      <Link to="/videos" className="back-button">Back</Link>
+        <h1>{videoTitle}</h1>
+        <p> Released {videoReleaseDate} ~ {videoRuntime} Minutes</p>
+        <StarRating rating={rating}/>
         <div className="videoplayer-container">
           <ReactPlayer url={videoUrl} controls  />
         </div>
         <div className="video-info-container">
-          {/* description, cast, release time*/}
+          <p>{videoDescription}</p>
+          <p>Genre: {videoGenre}</p>
+          <p>Starring: {videoActors}</p>
         </div>
       </div>
     </div>
@@ -31,45 +47,3 @@ const VideoPlayer = () => {
 export default VideoPlayer;
 
 
-// import React from 'react';
-// import { useParams } from 'react-router-dom';
-// import ReactPlayer from 'react-player';
-
-// const VideoPlayer = () => {
-//   const { id } = useParams();
-//   const videos = [
-//     { id: 1, title: 'good news', url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4' },
-//     { id: 2, title: 'zoo', url: 'https://www.youtube.com/watch?v=jNQXAC9IVRw' },
-//     // Add more videos as needed
-//   ];
-
-//   const video = videos.find(video => video.id === parseInt(id));
-
-//   return (
-//     <div>
-//       {video ? (
-//         <div>
-//           <h1>{video.title}</h1>
-//           <ul>
-//             <li>
-//               {/* className = videoplayer container */}
-//           <ReactPlayer url={video.url} controls />
-//             </li>
-//             <li>
-//               {/* className= video info container */}
-//               {/* description */}
-//               {/* cast / info / release time*/}
-//             </li>
-//             {/* <li>
-//                more titles (stretch) 
-//             </li> */}
-//           </ul>
-//         </div>
-//       ) : (
-//         <p>Video not found</p>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default VideoPlayer;
