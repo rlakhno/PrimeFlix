@@ -8,13 +8,14 @@ function ProductCard(props) {
   const product = props.product;
   const cart = useContext(CartContext);
   const productQuantity = cart.getProductQuantity(product.id);
-  console.log("cart.items: ", cart.items);
+  // console.log("cart.items: ", cart.items);
 
   return (
     <Card>
       <Card.Body>
         <Card.Title>{product.title}</Card.Title>
         <Card.Text>${product.price}</Card.Text>
+        {product.title === "Subscription" ? <Card.Text>Enjoy</Card.Text> : <Card.Text>In stock: {product.quantity}</Card.Text>}
         {productQuantity > 0 ?
           <>
             <Form as={Row}>

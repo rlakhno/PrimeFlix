@@ -1,5 +1,7 @@
 
-import { PureComponent, createContext, useState } from "react";
+// CartContext.js
+
+import { PureComponent, createContext, useEffect, useState } from "react";
 import { productsArray, getProductData } from "./productsStore";
 
 // Contex (catr, addToCart, removeCart)
@@ -11,12 +13,30 @@ export const CartContext = createContext({
   addOneToCart: () => { },
   removeOneFromCart: () => { },
   deleteFromCart: () => { },
-  getTotalCost: () => { }
+  getTotalCost: () => { },
+  totalCost: 0
 });
 
 export function CartProvider({ children }) {
 
+  // const [data, setData] = useState();
   const [cartProducts, setCartProducts] = useState([]);
+  const [totalCost, setTotalCost] = useState(0);
+
+  useEffect(() => {
+    async function calculateTotalCost() {
+      let cost = 0;
+      for(const cartItem of cartProducts) {
+        const productData = await getProductData(cartItem.id);
+        if(productData) {
+          cost += parseFloat(productData.price) * cartItem.quantity;
+        }
+      }
+      setTotalCost(cost.toFixed(2));
+    }
+    calculateTotalCost();
+
+  }, [cartProducts])
 
   //[ { id: 1, quantity: 2 }, {id: 2, quantity: 1} ]
 
@@ -102,30 +122,46 @@ export function CartProvider({ children }) {
     )
   }
 
-
-
-  function getTotalCost() {
-
+  async function getTotalCost() {
     let totalCost = 0;
-    cartProducts.map((cartItem) => {
-      const productData = getProductData(cartItem.id);
-      totalCost += (productData.price * cartItem.quantity);
-    });
-
+    for (const cartItem of cartProducts) {
+      const productData = await getProductData(cartItem.id);
+      // console.log("productData CartContext: ", productData);
+      if (productData) {
+        totalCost += (parseFloat(productData.price) * cartItem.quantity);
+      }
+    }
+    console.log("totalCost: ", totalCost.toFixed(2));
     return totalCost;
   }
 
 
+  // function getTotalCost() {
+  //   let totalCost = 0;
+
+  //   cartProducts.map((cartItem) => {
+
+  //     const productData = getProductData(cartItem.id);
+  //     console.log("productData CartContext: ", productData);
+  //     totalCost += (productData.price * cartItem.quantity);
+
+  //   });
+  //   console.log("totalCost: ", totalCost);
+  //   return totalCost;
+  // }
+
+
   const contextValue = {
-    items: cartProducts, 
+    items: cartProducts,
     getProductQuantity,
     addOneToCart,
     removeOneFromCart,
     deleteFromCart,
-    getTotalCost
+    getTotalCost,
+    totalCost
   }
 
-  return(
+  return (
     <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
