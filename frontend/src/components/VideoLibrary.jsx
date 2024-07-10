@@ -95,8 +95,8 @@ const VideoLibrary = () => {
                 <Link
                   to={`/video/${movie.id}?title=${encodeURIComponent(movie.title)}
                   &description=${encodeURIComponent(movie.overview)}
-                  &genre=${encodeURIComponent(movie.genres[0].name)}
-                  &url=${encodeURIComponent(movie.videos.results[0]?.key)}
+                  &genre=${encodeURIComponent(movie.genres[0]?.name || '')}
+                  &url=${encodeURIComponent(movie.videos.results[0]?.key || '')}
                   &release_date=${encodeURIComponent(movie.release_date)}
                   &runtime=${encodeURIComponent(movie.runtime)}
                   &rating=${movie.vote_average}

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
+import axios from 'axios';
 import StarRating from './starRating';
 import '../App.css';
 
+const API_KEY = '1215575910ec222af8c6a604dac74b2a';
 
 const VideoPlayer = () => {
   const { id } = useParams();
@@ -18,7 +20,47 @@ const VideoPlayer = () => {
   const videoActors = queryParams.get('actors');
   const rating = (queryParams.get('rating'));
 
-  
+  const [similarMovies, setSimilarMovies] = useState([]);
+
+  const fetchMovieDetails = async (movieId) => {
+    try {
+      const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}`, {
+        params: {
+          api_key: API_KEY,
+          language: 'en-US',
+          append_to_response: 'videos,credits',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching movie details:", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const fetchSimilarMovies = async () => {
+      try {
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/${id}/similar`, {
+          params: {
+            api_key: API_KEY,
+            language: 'en-US',
+            page: 1,
+          },
+        });
+
+        const movies = await Promise.all(
+          response.data.results.map(movie => fetchMovieDetails(movie.id))
+        );
+
+        setSimilarMovies(movies.filter(movie => movie));
+      } catch (error) {
+        console.error("Error fetching similar movies:", error);
+      }
+    };
+
+    fetchSimilarMovies();
+  }, [id]);
 
   if (!videoUrl) {
     return <p>Video not found</p>;
@@ -27,23 +69,43 @@ const VideoPlayer = () => {
   return (
     <div className="video-library">
       <div className="videoplayer-element">
-      <Link to="/videos" className="back-button">Back</Link>
-        <h1>{videoTitle}</h1>
-        <p> Released {videoReleaseDate} ~ {videoRuntime} Minutes</p>
-        <StarRating rating={rating}/>
+        <Link to="/videos" className="back-button">Back</Link>
+        <h1><strong>{videoTitle}</strong></h1>
+        <p><strong>Released:</strong> {videoReleaseDate} ~ {videoRuntime} Minutes</p>
+        <StarRating rating={rating} />
         <div className="videoplayer-container">
-          <ReactPlayer url={videoUrl} controls  />
+          <ReactPlayer url={videoUrl} controls />
         </div>
         <div className="video-info-container">
-          <p>{videoDescription}</p>
-          <p>Genre: {videoGenre}</p>
-          <p>Starring: {videoActors}</p>
+          <p><strong>{videoDescription}</strong></p>
+          <br></br>
+          <p><strong>Genre:</strong> {videoGenre}</p>
+          <p><strong>Starring:</strong> {videoActors}</p>
         </div>
+      </div>
+      <div className="similar-movies">
+        <h2>Similar Movies</h2>
+        <ul className="video-row">
+          {similarMovies.map(movie => (
+            <li key={movie.id}>
+              <Link
+                to={`/video/${movie.id}?title=${encodeURIComponent(movie.title)}
+                  &description=${encodeURIComponent(movie.overview)}
+                  &genre=${encodeURIComponent(movie.genres[0]?.name || '')}
+                  &url=${encodeURIComponent(movie.videos.results[0]?.key || '')}
+                  &release_date=${encodeURIComponent(movie.release_date)}
+                  &runtime=${encodeURIComponent(movie.runtime)}
+                  &rating=${movie.vote_average}
+                  &actors=${encodeURIComponent(movie.credits.cast.map(actor => actor.name).join(', '))}`}
+              >
+                <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 };
 
 export default VideoPlayer;
-
-
