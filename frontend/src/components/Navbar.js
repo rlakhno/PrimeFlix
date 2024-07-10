@@ -13,6 +13,7 @@ const NavbarComponent = () => {
   const { session, logout } = useSession();
   const [name, setName] = useState();
   const cart = useContext(CartContext);
+  // const { totalCost } = useContext(CartContext);
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -55,7 +56,6 @@ const NavbarComponent = () => {
 
   const productsCount = cart.items.reduce((sum, product) => sum + product.quantity, 0);
 
-
   return (
     <>
       <Navbar expand="sm">
@@ -90,7 +90,8 @@ const NavbarComponent = () => {
               {cart.items.map((currentProduct, index) => (
                 <CartProduct key={index} id={currentProduct.id} quantity={currentProduct.quantity}></CartProduct>
               ))}
-              <h1>Total: {cart.getTotalCost().toFixed(2)}</h1>
+              {/* <h1>Total: {cart.getTotalCost().toFixed(2)}</h1> */}
+              <h1>Total: {cart.totalCost}</h1>
               <Button variant="success" onClick={checkout}>
                 Purchase items
               </Button>

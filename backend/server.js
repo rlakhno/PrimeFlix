@@ -79,12 +79,12 @@ app.get('/', (req, res) => {
 
 //  Session endpoint - Email session validation on home page
 app.get('/session', (req, res) => {
-  if(req.session.email) {
+  if (req.session.email) {
     res.json({ valid: true, email: req.session.email, firstName: req.session.firstname })
   } else {
     res.json({ valid: false })
   }
-  
+
 })
 
 
@@ -107,15 +107,12 @@ app.get('/login', (req, res) => {
 app.post('/login', async (req, res) => {
 
   const { email, password } = req.body;
-
   try {
     const query = 'SELECT * FROM users WHERE email = $1';
     const result = await pool.query(query, [email]);
-
     if (result.rows.length === 0) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
-
     const user = result.rows[0];
     const match = await bcrypt.compare(password, user.password);
 
@@ -191,19 +188,23 @@ app.post("/checkout", async (req, res) => {
 
 });
 
+// New endpoint to fetch product data from the database
+app.get('/api/products', async (req, res) => {
+  const result = await pool.query('SELECT * FROM products');
+  // console.log("👍from api/products: ", result.rows);
+  if (result.rows) {
+    // res.json({ products: result.rows });
+    res.send(JSON.stringify({ products: result.rows }));
+  } else {
+    console.log("⛔from api/products: ", result.rows);
+    res.json({ products: result.rows });
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-
-// session
-// app.get('/store', (req, res) => {
-//   req.session.message = "hello, world from session";
-//   res.send(`<div>Session is Set</div>`)
-// })
-
-// app.get('/get-session', (req, res) => {
-//   res.send(`<div>Session Value ${req.session.message}</div>`)
-// })
 
