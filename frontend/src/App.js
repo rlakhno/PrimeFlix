@@ -14,6 +14,7 @@ import Success from './pages/Success';
 import CartProvider from './CartContext';
 import VideoLibrary from './components/VideoLibrary';
 import VideoPlayer from './components/VideoPlayer';
+import VideoResults from './components/VideoResults';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path='/store' element={<Store />}></Route>
           <Route path='/videos' element={<VideoLibrary />}></Route>
           <Route path="/video/:id" element={<VideoPlayer />} />
+          <Route path="/search" element={<VideoResults />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>

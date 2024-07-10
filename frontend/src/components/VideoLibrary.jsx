@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
 
@@ -63,11 +63,12 @@ const fetchMovieDetails = async (movieId) => {
 
 const VideoLibrary = () => {
   const [moviesByGenre, setMoviesByGenre] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAllMovies = async () => {
       const moviesByGenre = {};
-
       for (const genre of genres) {
         const movies = await fetchMovies(genre.id);
         const movieDetails = await Promise.all(
@@ -75,15 +76,29 @@ const VideoLibrary = () => {
         );
         moviesByGenre[genre.name] = movieDetails.filter(movie => movie);
       }
-
       setMoviesByGenre(moviesByGenre);
     };
-
     fetchAllMovies();
   }, []);
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery) {
+      navigate(`/search?query=${searchQuery}`);
+    }
+  };
+
   return (
     <div className="video-library">
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Search by Movie Title!"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
       {Object.entries(moviesByGenre).map(([genre, movies]) => (
         <div key={genre}>
           <h2>{genre}</h2>
@@ -92,13 +107,13 @@ const VideoLibrary = () => {
               <li key={movie.id}>
                 <Link
                   to={`/video/${movie.id}?title=${encodeURIComponent(movie.title)}
-                  &description=${encodeURIComponent(movie.overview)}
-                  &genre=${encodeURIComponent(movie.genres[0].name)}
-                  &url=${encodeURIComponent(movie.videos.results[0]?.key)}
-                  &release_date=${encodeURIComponent(movie.release_date)}
-                  &runtime=${encodeURIComponent(movie.runtime)}
-                  &rating=${movie.vote_average}
-                  &actors=${encodeURIComponent(movie.credits.cast.map(actor => actor.name).join(', '))}`}
+                    &description=${encodeURIComponent(movie.overview)}
+                    &genre=${encodeURIComponent(movie.genres[0].name)}
+                    &url=${encodeURIComponent(movie.videos.results[0]?.key)}
+                    &release_date=${encodeURIComponent(movie.release_date)}
+                    &runtime=${encodeURIComponent(movie.runtime)}
+                    &rating=${movie.vote_average}
+                    &actors=${encodeURIComponent(movie.credits.cast.map(actor => actor.name).join(', '))}`}
                 >
                   <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />
                 </Link>
@@ -112,4 +127,3 @@ const VideoLibrary = () => {
 };
 
 export default VideoLibrary;
-
