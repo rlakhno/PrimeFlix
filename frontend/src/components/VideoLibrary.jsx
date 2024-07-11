@@ -1,10 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
-import { useSession } from '../SessionContext';
-
 
 const API_KEY = '1215575910ec222af8c6a604dac74b2a';
 
@@ -30,12 +27,11 @@ const genres = [
   { id: 37, name: "Western" },
 ];
 
-const fetchMovies = async (genreId) => {
+const fetchMovies = async (url) => {
   try {
-    const response = await axios.get(`https://api.themoviedb.org/3/discover/movie`, {
+    const response = await axios.get(url, {
       params: {
         api_key: API_KEY,
-        with_genres: genreId,
         language: 'en-US',
         page: 1,
       },
@@ -63,29 +59,126 @@ const fetchMovieDetails = async (movieId) => {
   }
 };
 
+const fetchLatestMovieDetails = async () => {
+  try {
+    const response = await axios.get(`https://api.themoviedb.org/3/movie/latest`, {
+      params: {
+        api_key: API_KEY,
+        language: 'en-US',
+        append_to_response: 'videos,credits',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching latest movie details:", error);
+    return null;
+  }
+};
+
 const VideoLibrary = () => {
   const [moviesByGenre, setMoviesByGenre] = useState({});
+  const [recommendations, setRecommendations] = useState([]);
+  const [latestMovie, setLatestMovie] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAllMovies = async () => {
       const moviesByGenre = {};
-
       for (const genre of genres) {
-        const movies = await fetchMovies(genre.id);
+        const movies = await fetchMovies(`https://api.themoviedb.org/3/discover/movie?with_genres=${genre.id}`);
         const movieDetails = await Promise.all(
           movies.map(movie => fetchMovieDetails(movie.id))
         );
         moviesByGenre[genre.name] = movieDetails.filter(movie => movie);
       }
-
       setMoviesByGenre(moviesByGenre);
     };
 
+    const fetchRecommendations = async () => {
+      const movies = await fetchMovies(`https://api.themoviedb.org/3/movie/top_rated`);
+      const movieDetails = await Promise.all(
+        movies.map(movie => fetchMovieDetails(movie.id))
+      );
+      setRecommendations(movieDetails.filter(movie => movie));
+    };
+
+    const fetchLatestMovie = async () => {
+      const latestMovieDetails = await fetchLatestMovieDetails();
+      setLatestMovie(latestMovieDetails);
+    };
+
     fetchAllMovies();
+    fetchRecommendations();
+    fetchLatestMovie();
   }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery) {
+      navigate(`/search?query=${searchQuery}`);
+    }
+  };
 
   return (
     <div className="video-library">
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Search by genre, actor, or movie title"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      <h2>Latest Movie (BETA)</h2>
+      {latestMovie && (
+        <div className="latest-movie">
+          <div className="latest-movie-details">
+            <Link
+              to={`/video/${latestMovie.id}?title=${encodeURIComponent(latestMovie.title || '')}
+                    &description=${encodeURIComponent(latestMovie.overview || 'UNAVAILABLE')}
+                    &genre=${encodeURIComponent(latestMovie.genres?.[0]?.name || 'UNAVAILABLE')}
+                    &url=${encodeURIComponent(latestMovie.videos?.results?.[0]?.key || '')}
+                    &release_date=${encodeURIComponent(latestMovie.release_date || 'UNAVAILABLE')}
+                    &runtime=${encodeURIComponent(latestMovie.runtime || 'UNAVAILABLE')}
+                    &rating=${latestMovie.vote_average || ''}
+                    &actors=${encodeURIComponent(latestMovie.credits?.cast?.map(actor => actor.name).join(', ') || 'UNAVAILABLE')}`}
+            >
+              <img src={`https://image.tmdb.org/t/p/w300${latestMovie.poster_path}`} alt={latestMovie.title} />
+            </Link>
+            <div className="latest-movie-info">
+              <h3>{latestMovie.title}</h3>
+              <p>{latestMovie.overview}</p>
+              <p><strong>Genre:</strong> {latestMovie.genres?.map(genre => genre.name).join(', ')}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="recommendations">
+        <h2>Recommendations</h2>
+        <ul className="recommendations-row">
+          {recommendations.map((movie) => (
+            <li key={movie.id}>
+              <Link
+                to={`/video/${movie.id}?title=${encodeURIComponent(movie.title || '')}
+                    &description=${encodeURIComponent(movie.overview || 'UNAVAILABLE')}
+                    &genre=${encodeURIComponent(movie.genres?.[0]?.name || 'UNAVAILABLE')}
+                    &url=${encodeURIComponent(movie.videos?.results?.[0]?.key || '')}
+                    &release_date=${encodeURIComponent(movie.release_date || 'UNAVAILABLE')}
+                    &runtime=${encodeURIComponent(movie.runtime || 'UNAVAILABLE')}
+                    &rating=${movie.vote_average || ''}
+                    &actors=${encodeURIComponent(movie.credits?.cast?.map(actor => actor.name).join(', ') || 'UNAVAILABLE')}`}
+              >
+                <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
       {Object.entries(moviesByGenre).map(([genre, movies]) => (
         <div key={genre}>
           <h2>{genre}</h2>
@@ -93,14 +186,14 @@ const VideoLibrary = () => {
             {movies.map((movie) => (
               <li key={movie.id}>
                 <Link
-                  to={`/video/${movie.id}?title=${encodeURIComponent(movie.title)}
-                  &description=${encodeURIComponent(movie.overview)}
-                  &genre=${encodeURIComponent(movie.genres[0]?.name || '')}
-                  &url=${encodeURIComponent(movie.videos.results[0]?.key || '')}
-                  &release_date=${encodeURIComponent(movie.release_date)}
-                  &runtime=${encodeURIComponent(movie.runtime)}
-                  &rating=${movie.vote_average}
-                  &actors=${encodeURIComponent(movie.credits.cast.map(actor => actor.name).join(', '))}`}
+                  to={`/video/${movie.id}?title=${encodeURIComponent(movie.title || '')}
+                    &description=${encodeURIComponent(movie.overview || 'UNAVAILABLE')}
+                    &genre=${encodeURIComponent(movie.genres?.[0]?.name || 'UNAVAILABLE')}
+                    &url=${encodeURIComponent(movie.videos?.results?.[0]?.key || '')}
+                    &release_date=${encodeURIComponent(movie.release_date || 'UNAVAILABLE')}
+                    &runtime=${encodeURIComponent(movie.runtime || 'UNAVAILABLE')}
+                    &rating=${movie.vote_average || ''}
+                    &actors=${encodeURIComponent(movie.credits?.cast?.map(actor => actor.name).join(', ') || 'UNAVAILABLE')}`}
                 >
                   <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />
                 </Link>

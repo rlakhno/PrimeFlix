@@ -31,6 +31,7 @@ const VideoPlayer = () => {
           append_to_response: 'videos,credits',
         },
       });
+      console.log(movieId)
       return response.data;
     } catch (error) {
       console.error("Error fetching movie details:", error);
@@ -88,15 +89,15 @@ const VideoPlayer = () => {
         <ul className="video-row">
           {similarMovies.map(movie => (
             <li key={movie.id}>
-              <Link
-                to={`/video/${movie.id}?title=${encodeURIComponent(movie.title)}
-                  &description=${encodeURIComponent(movie.overview)}
-                  &genre=${encodeURIComponent(movie.genres[0]?.name || '')}
-                  &url=${encodeURIComponent(movie.videos.results[0]?.key || '')}
-                  &release_date=${encodeURIComponent(movie.release_date)}
-                  &runtime=${encodeURIComponent(movie.runtime)}
-                  &rating=${movie.vote_average}
-                  &actors=${encodeURIComponent(movie.credits.cast.map(actor => actor.name).join(', '))}`}
+               <Link
+                to={`/video/${movie.id}?title=${encodeURIComponent(movie.title || '')}
+                    &description=${encodeURIComponent(movie.overview || 'UNAVALIBLE')}
+                    &genre=${encodeURIComponent(movie.genres?.[0]?.name || 'UNAVALIBLE')}
+                    &url=${encodeURIComponent(movie.videos?.results?.[0]?.key || '')}
+                    &release_date=${encodeURIComponent(movie.release_date || 'UNAVALIBLE')}
+                    &runtime=${encodeURIComponent(movie.runtime || 'UNAVALIBLE')}
+                    &rating=${movie.vote_average || ''}
+                    &actors=${encodeURIComponent(movie.credits?.cast?.map(actor => actor.name).join(', ') || 'UNAVALIBLE')}`}
               >
                 <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />
               </Link>
