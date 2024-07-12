@@ -4,6 +4,7 @@ import { fetchProductData, productsArray } from '../productsStore';
 import ProductCard from '../components/ProductCard';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../App.css';
 
 
 
@@ -31,9 +32,9 @@ function Store() {
     }
   }, [])
   return (
-    <>
+    <div className="video-library">
       <h1 align="center" className='p-3'>Welcome to PrimeFlix store!</h1>
-      <Row xs={1} md={3} className='g-4'>
+      <Row xs={1} md={4} className='g-4'>
         {productsArray.map((product, index) => (
           <Col align="center" key={index}>
             <ProductCard product={product} />
@@ -44,7 +45,7 @@ function Store() {
 
       </Row>
 
-    </>
+    </div>
 
   )
 }

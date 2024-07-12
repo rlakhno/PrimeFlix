@@ -24,11 +24,22 @@ app.use(cors({
   credentials: true
 
 }));
+
+// Initialize express-session middleware
+// app.use(session({
+//   secret: 'secret_key', // Replace with a secure random string for session encryption
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: { secure: false }
+
+// }));
+
 app.use(cookieSession({
   name: 'session',
   keys: ['abc', 'def', 'ghi'],
   maxAge: 24 * 60 * 60 * 1000 //1 day
 }))
+
 // Recommended by Stripe
 app.use(express.static("public"));
 // Parse JSON bodies
@@ -72,15 +83,54 @@ app.post('/signup', async (req, res) => {
 
 //  Home endpoint - Email session validation on home page
 app.get('/', (req, res) => {
-  req.session.username
-    ? res.json({ valid: true, username: req.session.email })
+  req.session.user
+    ? res.json({ valid: true, username: req.session.user.email })
     : res.json({ valid: false })
 })
 
+app.post('/api/items', async (req, res) => {
+  const { userId, items } = req.body;
+
+  try {
+    const client = await pool.connect();
+
+    const queryPromises = items.map(item => {
+      const queryText = 'INSERT INTO purchases(price_id, quantity, user_id) VALUES($1, $2, $3)';
+      return client.query(queryText, [item.id, item.quantity, userId]);
+    });
+
+    await Promise.all(queryPromises);
+
+    client.release();
+    res.status(200).send('Items saved to database');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+// app.post('api/items', async (req, res) => {
+//   const { userId, items } = req.body;
+// try{
+//     console.log("items from api/items: " + items + ", " + userId);
+//     const queryPromises = items.map(item => {
+//       const queryText = `INSERT INTO puschases(price_id, quantity, user_id) VALUES($1, $2, $3)`;
+//       return pool.query(queryText, [item.id, item.quantity, userId]);
+//     });
+//     await Promise.all(queryPromises);
+//     res.status(200).send('Items saved to database');
+//   } catch(err) {
+//     console.error(err);
+//     res._construct(500).send('Server Error');
+//   }
+
+// });
+
 //  Session endpoint - Email session validation on home page
 app.get('/session', (req, res) => {
-  if (req.session.email) {
-    res.json({ valid: true, email: req.session.email, firstName: req.session.firstname })
+  // console.log("Inside /session: ", new Date(), JSON.stringify(req.session));
+  if (req.session.user) {
+    res.json({ valid: true, email: req.session.user.email, firstName: req.session.user.firstname, userId: req.session.user.id })
   } else {
     res.json({ valid: false })
   }
@@ -90,8 +140,8 @@ app.get('/session', (req, res) => {
 
 //  Home endpoint - Email session validation on home page
 app.get('/home', (req, res) => {
-  req.session.email
-    ? res.json({ valid: true, email: req.session.email, firstName: req.session.firstname })
+  req.session.user
+    ? res.json({ valid: true, email: req.session.user.email, firstName: req.session.user.firstname })
     : res.json({ valid: false })
 })
 
@@ -117,7 +167,9 @@ app.post('/login', async (req, res) => {
     const match = await bcrypt.compare(password, user.password);
 
     if (match) {
-      req.session = user;
+      // Set user session
+      // req.session = user;
+      req.session.user = user; // new
       res.json({ valid: true, });
     } else {
       res.status(401).json({ valid: false });
@@ -127,7 +179,6 @@ app.post('/login', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 
 
 
@@ -154,10 +205,11 @@ app.post("/checkout", async (req, res) => {
 
   try {
 
-    console.log("req.body: ", req.body);
+    // console.log("req.body: ", req.body);
     const items = req.body.items;
     let lineItems = [];
     items.forEach((item) => {
+      // req.session.cartItems.forEach((item) => {
       lineItems.push(
         {
           price: item.id,
@@ -167,6 +219,9 @@ app.post("/checkout", async (req, res) => {
 
     });
 
+    // console.log("items ADDING: ",items);
+    // req.session.cartItems = items;
+    // Create a session in Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
@@ -175,18 +230,31 @@ app.post("/checkout", async (req, res) => {
       cancel_url: "http://localhost:3000/cancel"
     });
 
+    // Update session with cart items
+    // console.log("req.session: ",JSON.stringify(req.session, null, 2), new Date() );
+    // console.log("items HERE: ",items);
+    // req.session.cartItems = items;
 
     res.send(JSON.stringify({
       url: session.url
     }));
-
   } catch (error) {
     console.error('Error during checkout:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-
-
 });
+
+// useEffect(() => {
+//   fetchSessionData()
+//     .then(data => {
+//       if(data.valid) {
+//         setSession({ ...data, valid: true})
+//       }
+//   })
+//     .catch(err => {console.error('Failed to fetch session data', err);
+// });
+    
+// }, []);
 
 // New endpoint to fetch product data from the database
 app.get('/api/products', async (req, res) => {
