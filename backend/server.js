@@ -109,22 +109,6 @@ app.post('/api/items', async (req, res) => {
   }
 });
 
-// app.post('api/items', async (req, res) => {
-//   const { userId, items } = req.body;
-// try{
-//     console.log("items from api/items: " + items + ", " + userId);
-//     const queryPromises = items.map(item => {
-//       const queryText = `INSERT INTO puschases(price_id, quantity, user_id) VALUES($1, $2, $3)`;
-//       return pool.query(queryText, [item.id, item.quantity, userId]);
-//     });
-//     await Promise.all(queryPromises);
-//     res.status(200).send('Items saved to database');
-//   } catch(err) {
-//     console.error(err);
-//     res._construct(500).send('Server Error');
-//   }
-
-// });
 
 //  Session endpoint - Email session validation on home page
 app.get('/session', (req, res) => {
@@ -153,6 +137,20 @@ app.get('/login', (req, res) => {
   res.render('/');
 })
 
+// Profile POST endpoint
+app.post('/api/profile', async (req, res) => {
+  const { userId } = req.body;
+  console.log("userID: ", userId);
+  // const queryText = 'SELECT * FROM purchases WHERE user_id = $1';
+  const queryText = 'SELECT pr.title, pr.price, pr.image, p.quantity, p.purchase_date FROM products pr JOIN purchases p ON pr.id = p.price_id WHERE p.user_id = $1';
+  
+  const result = await pool.query(queryText, [userId]);
+  // console.log("result: ", result);
+  if(result.rowCount.length === 0) {
+    return res.status(500).json({error: 'Did not get response from Database ⛔'})
+  }
+  res.json({response: result.rows})
+})
 // Login POST endpoint
 app.post('/login', async (req, res) => {
 

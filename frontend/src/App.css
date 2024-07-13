@@ -141,5 +141,21 @@ a {
   box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1); /* Add shadow on hover */
 }
 
+.product-image {
+  width: 60px;  
+  height: 60px; 
+  object-fit: cover; 
+  margin-right: 10px;
+  padding-bottom: 10px;
+}
 
+.table-column {
+  font-size: 24px;
+  padding-right: 30px; 
+}
+
+.table-header {
+  /* font-size: 24px; */
+  padding-right: 30px; 
+}
 

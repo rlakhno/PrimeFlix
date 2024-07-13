@@ -31,28 +31,6 @@ function Success() {
     }
   }, [session]);
 
-  // useEffect(() => {
-  //   let data = sessionStorage.getItem("items");
-  //   if (data) {
-  //     console.log("data from Success: ", data);
-  //     try {
-  //       const parsedData = JSON.parse(data);
-  //       setItemsData(parsedData);
-  //       // Send data to backend
-  //       axios.post('http://localhost:8080/api/items', {userId: session.userId, items: parsedData})
-  //       .then(response => {
-  //         console.log('Data sent to server: ', response.data);
-  //       })
-  //       .catch(error => {
-  //         console.error("Error parsing JSON:", error)
-  //       });
-
-
-  //     } catch (error) {
-  //       console.error("Error parsing JSON:", error);
-  //     }
-  //   }
-  // }, [session])
 
   console.log("session Success: ", session);
 
