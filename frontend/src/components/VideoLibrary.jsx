@@ -65,11 +65,12 @@ const fetchMovieDetails = async (movieId) => {
 
 const VideoLibrary = () => {
   const [moviesByGenre, setMoviesByGenre] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAllMovies = async () => {
       const moviesByGenre = {};
-
       for (const genre of genres) {
         const movies = await fetchMovies(genre.id);
         const movieDetails = await Promise.all(
@@ -77,15 +78,29 @@ const VideoLibrary = () => {
         );
         moviesByGenre[genre.name] = movieDetails.filter(movie => movie);
       }
-
       setMoviesByGenre(moviesByGenre);
     };
-
     fetchAllMovies();
   }, []);
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery) {
+      navigate(`/search?query=${searchQuery}`);
+    }
+  };
+
   return (
     <div className="video-library">
+      <form onSubmit={handleSearch}>
+        <input
+          type="text"
+          placeholder="Search by Movie Title!"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <button type="submit">Search</button>
+      </form>
       {Object.entries(moviesByGenre).map(([genre, movies]) => (
         <div key={genre}>
           <h2>{genre}</h2>
