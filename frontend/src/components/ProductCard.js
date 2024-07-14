@@ -17,20 +17,23 @@ function ProductCard(props) {
       <Card.Body className="d-flex flex-column">
         <Card.Title>{product.title}</Card.Title>
         <Card.Text>${product.price}</Card.Text>
-        {product.title === "Subscription" ? <Card.Text>Enjoy</Card.Text> : <Card.Text>In stock: {product.quantity}</Card.Text>}
+        {product.title === "Subscription" ? <Card.Text>Enjoy Videos ✅</Card.Text> : <Card.Text>In stock: {product.quantity}</Card.Text>}
         {productQuantity > 0 ?
           <>
             <Form as={Row}>
                 <Form.Label column="true" sm="6">
                   In Cart: {productQuantity}
+                   
                 </Form.Label>
+                {product.title === "Subscription" ? "" :
                 <Col sm="6" className="d-flex align-items-center justify-content-end">
                   <Button sm="6" 
                   onClick={() => cart.addOneToCart(product.id) } className='mx-2'>+</Button>
                   <Button sm="6" 
                   onClick={() => cart.removeOneFromCart(product.id) }className='mx-2'>-</Button>
-                </Col>
+                </Col>}
             </Form>
+        
             <Button variant='danger' 
             onClick={() => cart.deleteFromCart(product.id) }
             className='my-2'>Remove From Cart</Button>
