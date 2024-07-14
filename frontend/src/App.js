@@ -26,6 +26,7 @@ function App() {
     <CartProvider>
       <BrowserRouter>
       <SessionProvider>
+<<<<<<< HEAD
         <Container>
           <NavbarComponent />
         </Container>
@@ -41,6 +42,24 @@ function App() {
           <Route path="/search" element={<VideoResults />} />
       <Route path="/profile" element={<Profile />} />
         </Routes>
+=======
+        <CartProvider>
+          {/* <Container> */}
+            <NavbarComponent />
+          {/* </Container> */}
+          <Routes>
+            <Route path='/' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/success' element={<Success />} />
+            <Route path='/cancel' element={<Cancel />} />
+            <Route path='/home' element={<Home />} />
+            <Route path='/store' element={<Store />} />
+            <Route path='/videos' element={<VideoLibrary />} />
+            <Route path="/video/:id" element={<VideoPlayer />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </CartProvider>
+>>>>>>> 4c57c7d606786d2db7aa7e8eeec6eeb9622dc21b
       </SessionProvider>
       </BrowserRouter>
     </CartProvider>

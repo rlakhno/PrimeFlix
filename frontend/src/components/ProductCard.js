@@ -1,5 +1,7 @@
 
+//ProductCart.js
 import { Card, Button, Form, Row, Col, FormLabel } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { CartContext } from '../CartContext';
 import { useContext } from 'react';
 
@@ -8,11 +10,11 @@ function ProductCard(props) {
   const product = props.product;
   const cart = useContext(CartContext);
   const productQuantity = cart.getProductQuantity(product.id);
-  // console.log("cart.items: ", cart.items);
 
   return (
-    <Card>
-      <Card.Body>
+    <Card className="product-card h-100" style={{ width: '15rem' }}>
+      <Card.Img src={product.image} variant="top" className="card-img-top" style={{ height: '190px', objectFit: 'cover' }} />
+      <Card.Body className="d-flex flex-column">
         <Card.Title>{product.title}</Card.Title>
         <Card.Text>${product.price}</Card.Text>
         {product.title === "Subscription" ? <Card.Text>Enjoy</Card.Text> : <Card.Text>In stock: {product.quantity}</Card.Text>}
@@ -22,7 +24,7 @@ function ProductCard(props) {
                 <Form.Label column="true" sm="6">
                   In Cart: {productQuantity}
                 </Form.Label>
-                <Col sm="6">
+                <Col sm="6" className="d-flex align-items-center justify-content-end">
                   <Button sm="6" 
                   onClick={() => cart.addOneToCart(product.id) } className='mx-2'>+</Button>
                   <Button sm="6" 

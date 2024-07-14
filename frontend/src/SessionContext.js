@@ -28,6 +28,7 @@ export function SessionProvider({ children }) {
     try {
       await apiLogout();
       setSession({ valid: false });
+      sessionStorage.removeItem("items");
       sessionStorage.removeItem("valid");
       // You might want to redirect the user after logout
       navigate('/')
