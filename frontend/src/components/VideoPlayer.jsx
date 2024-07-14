@@ -99,7 +99,7 @@ const VideoPlayer = () => {
                     &rating=${movie.vote_average || ''}
                     &actors=${encodeURIComponent(movie.credits?.cast?.map(actor => actor.name).join(', ') || 'UNAVALIBLE')}`}
               >
-                <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />
+                <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}` || 'https://fontanalib.org/sites/default/files/covers/unavailable-img-_movie.jpg'} alt={movie.title} />
               </Link>
             </li>
           ))}
