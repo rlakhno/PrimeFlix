@@ -25,9 +25,9 @@ function App() {
     <BrowserRouter>
       <SessionProvider>
         <CartProvider>
-          <Container>
+          {/* <Container> */}
             <NavbarComponent />
-          </Container>
+          {/* </Container> */}
           <Routes>
             <Route path='/' element={<Login />} />
             <Route path='/signup' element={<Signup />} />

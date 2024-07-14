@@ -159,3 +159,7 @@ a {
   padding-right: 30px; 
 }
 
+.navbar-brand-with-padding {
+  padding-left: 20px;
+}
+

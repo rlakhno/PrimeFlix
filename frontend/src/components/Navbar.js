@@ -3,6 +3,7 @@ import { Button, Navbar, Modal } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useContext, useEffect } from "react";
 import logo from './logo1.jpg';
+import subscribe from '../images/subscribe.jpg'
 import { CartContext } from '../CartContext';
 import CartProduct from "./CartProduct";
 import { useNavigate } from "react-router-dom";
@@ -68,7 +69,7 @@ const NavbarComponent = () => {
   return (
     <>
       <Navbar expand="sm">
-        <Navbar.Brand href="/home">
+        <Navbar.Brand href="/home" className="navbar-brand-with-padding">
           <img
             src={logo}
             width="30"
@@ -85,6 +86,15 @@ const NavbarComponent = () => {
         <Navbar.Brand href="/profile">Hi <strong>{session.firstName} {session.id}</strong></Navbar.Brand>
         <Navbar.Toggle />
         <Button onClick={removeName} >Logout</Button>
+        <Navbar.Brand href="/home" className="navbar-brand-with-padding">
+          <img
+            src={subscribe}
+            width="90"
+            height="30"
+            className="d-inline-block align-top"
+            alt="Logo"
+          />
+        </Navbar.Brand>
         <Navbar.Collapse className="justify-content-end">
           <Button onClick={handleShow}>Cart ({productsCount} Items)</Button>
         </Navbar.Collapse>
