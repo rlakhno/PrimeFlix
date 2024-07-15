@@ -30,6 +30,7 @@ export function SessionProvider({ children }) {
       setSession({ valid: false });
       sessionStorage.removeItem("items");
       sessionStorage.removeItem("valid");
+      sessionStorage.removeItem("subscription");
       // You might want to redirect the user after logout
       navigate('/')
     } catch (err) {

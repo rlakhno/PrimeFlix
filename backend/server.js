@@ -91,11 +91,15 @@ app.get('/', (req, res) => {
 app.post('/api/items', async (req, res) => {
   const { userId, items } = req.body;
 
+  if (!userId) {
+    return res.status(400).send('User not authenticated');
+  }
+
   try {
     const client = await pool.connect();
 
     const queryPromises = items.map(item => {
-      const queryText = 'INSERT INTO purchases(price_id, quantity, user_id) VALUES($1, $2, $3)';
+      const queryText = 'INSERT INTO purchases(price_id, quantity, user_id, purchase_date) VALUES($1, $2, $3, NOW()) RETURNING *';
       return client.query(queryText, [item.id, item.quantity, userId]);
     });
 

@@ -21,19 +21,20 @@ function ProductCard(props) {
         {productQuantity > 0 ?
           <>
             <Form as={Row}>
-                <Form.Label column="true" sm="6">
-                  In Cart: {productQuantity}
-                </Form.Label>
+              <Form.Label column="true" sm="6">
+                In Cart: {productQuantity}
+              </Form.Label>
+              {product.title === "Subscription" ? "" :
                 <Col sm="6" className="d-flex align-items-center justify-content-end">
                   <Button sm="6" 
                   onClick={() => cart.addOneToCart(product.id) } className='mx-2'>+</Button>
                   <Button sm="6" 
                   onClick={() => cart.removeOneFromCart(product.id) }className='mx-2'>-</Button>
-                </Col>
+                </Col>}
             </Form>
-            <Button variant='danger' 
-            onClick={() => cart.deleteFromCart(product.id) }
-            className='my-2'>Remove From Cart</Button>
+            <Button variant='danger'
+              onClick={() => cart.deleteFromCart(product.id)}
+              className='my-2'>Remove From Cart</Button>
 
           </>
           :
