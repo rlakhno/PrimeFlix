@@ -103,8 +103,8 @@ const NavbarComponent = () => {
         <Navbar.Brand href="/profile">Hi <strong>{session.firstName} {session.id}</strong></Navbar.Brand>
         <Navbar.Toggle />
         <Button onClick={removeName} >Logout</Button>
-        <Navbar.Collapse href="/store" className="navbar-brand-with-padding">
-        { subscribe ? 
+        { subscribe === true ? 
+        <Navbar.Brand href="/store" className="navbar-brand-with-padding">
           <img
             src={subscribedImage}
             width="100"
@@ -113,7 +113,9 @@ const NavbarComponent = () => {
             alt="Logo"
             style={{ borderRadius: '10%' }}
           />
+          </Navbar.Brand>
           :
+          <Navbar.Brand href="/store" className="navbar-brand-with-padding">
           <img
             src={subscribeImage}
             width="100"
@@ -121,8 +123,10 @@ const NavbarComponent = () => {
             className="d-inline-block align-top"
             alt="Logo"
             style={{ borderRadius: '10%' }}
-          />}
-        </Navbar.Collapse>
+          />
+          </Navbar.Brand>
+          }
+        
         <Navbar.Collapse className="justify-content-end">
           <Button onClick={handleShow}>Cart ({productsCount} Items)</Button>
         </Navbar.Collapse>

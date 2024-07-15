@@ -4,6 +4,7 @@ import '../App.css';
 import React, { useEffect, useState } from 'react';
 import { useSession } from '../SessionContext';
 import axios from 'axios';
+import { response } from 'express';
 
 function Success() {
   const { session, logout } = useSession();
@@ -12,10 +13,28 @@ function Success() {
   useEffect(() => {
     let data = sessionStorage.getItem("items");
     if (data) {
-      console.log("data from Success: ", data);
+      // console.log("data from Success: ", data);
       try {
         const parsedData = JSON.parse(data);
         setItemsData(parsedData);
+        parsedData.forEach(element => {
+          console.log("element: ", element.id);
+          if(element.id === 'price_1PY9gf1PxLOehmUIZoBke1ER') {
+            // ................Update bubscription
+            axios.put(`http://localhost:8080/api/subscription/${session.userId}`, {subscribed: true})
+            .then(response => {
+              console.log('Subscription updated successfully:', response.data);
+            })
+            .catch(error => {
+              console.error('Error updating subscription:', error.response ? error.response.data : error.message);
+
+            })
+
+
+            // ................Update bubscription 
+          }
+        });
+        console.log("parsedData: ", parsedData);
 
         // Send data to the backend
         axios.post('http://localhost:8080/api/items', { userId: session.userId, items: parsedData })
