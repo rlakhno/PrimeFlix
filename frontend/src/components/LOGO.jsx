@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../App.css';
 
 const Logo = () => {
-  const [logoSrc, setLogoSrc] = useState('./images/PF_LOGO.png');
+  const [logoSrc, setLogoSrc] = useState('./images/PF_LOGO.jpg');
 
   const handleMouseEnter = () => {
     setLogoSrc('./images/PF_LOGO.gif');
