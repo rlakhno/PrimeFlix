@@ -141,6 +141,22 @@ app.get('/login', (req, res) => {
   res.render('/');
 })
 
+// PUT Subscription user update
+app.put('/api/subscription/:userId', async(req, res) => {
+  const userId = req.params.userId;
+  const { subscribed } = req.body;
+  console.log("userID: ", userId);
+  console.log("subscribed: ", subscribed);
+
+  const queryText = 'UPDATE users SET subscribed = $1 WHERE id = $2';
+  const result = await pool.query(queryText, [subscribed, userId]);
+  console.log("result: ", result);
+  if(result.rowCount.length === 0) {
+    return res.status(500).json({error: 'Did not get response from Database ⛔'})
+  }
+  res.json({response: result.rows})
+})
+
 // Profile POST endpoint
 app.post('/api/profile', async (req, res) => {
   const { userId } = req.body;
