@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
+import { FaSearch } from 'react-icons/fa';
 
 const API_KEY = '1215575910ec222af8c6a604dac74b2a';
 
@@ -64,6 +65,7 @@ const fetchMovieDetails = async (movieId) => {
 const VideoLibrary = () => {
   const [moviesByGenre, setMoviesByGenre] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchBar, setShowSearchBar] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -81,6 +83,10 @@ const VideoLibrary = () => {
     fetchAllMovies();
   }, []);
 
+  const getPosterUrl = (posterPath) => {
+    return posterPath ? `https://image.tmdb.org/t/p/w200${posterPath}` : 'frontend/public/images/poster_unavalible.jpg';
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery) {
@@ -88,12 +94,21 @@ const VideoLibrary = () => {
     }
   };
 
+  const toggleSearchBar = () => {
+    setShowSearchBar(!showSearchBar);
+  };
+
   return (
-    <div className="video-library">
-      <form onSubmit={handleSearch}>
+    
+   <div className="video-library">
+    
+      <button className="toggle-search-bar" onClick={toggleSearchBar}>
+      <FaSearch />
+      </button>
+      <form className={`search-Bar ${showSearchBar ? 'show' : 'hide'}`} onSubmit={handleSearch}>
         <input
           type="text"
-          placeholder="Search by Movie Title!"
+          placeholder="Search by movie title"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -115,7 +130,7 @@ const VideoLibrary = () => {
                     &rating=${movie.vote_average}
                     &actors=${encodeURIComponent(movie.credits.cast.map(actor => actor.name).join(', '))}`}
                 >
-                  <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />
+                  <img src={getPosterUrl(movie.poster_path)} alt={movie.title} />
                 </Link>
               </li>
             ))}
@@ -127,3 +142,10 @@ const VideoLibrary = () => {
 };
 
 export default VideoLibrary;
+
+// <svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+//   <rect width="200" height="60" fill="#1a1a1a" rx="10" />
+//   <text x="20" y="35" font-family="Arial, sans-serif" font-size="24" fill="#ffffff">Prime</text>
+//   <text x="90" y="35" font-family="Arial, sans-serif" font-size="24" fill="#ff9900">Flix</text>
+//   <polygon points="160,15 180,30 160,45" fill="#ff9900" />
+// </svg>

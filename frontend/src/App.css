@@ -79,7 +79,34 @@ a {
   border-radius: 4px;
   transition: transform 0.3s ease-in-out;
 }
+/* --------------------------------------------------------------- */
 
+
+.video-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  list-style-type: none;
+  padding: 0;
+}
+
+.video-results li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-results img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+
+.video-results img:hover {
+  transform: scale(1.05);
+}
+/* --------------------------------------------------------------- */
 .video-row img:hover {
   transform: scale(1.1);
 }
@@ -126,4 +153,51 @@ a {
 
 .back-button:hover {
   background-color: #0056b3;
+}
+
+/* --------------------------------------------------------------- */
+.toggle-search-bar {
+  float: right;
+  color: whitesmoke;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+
+/* Add styles for the search bar with transition */
+.search-Bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px; 
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out;
+  
+}
+
+.search-Bar.show {
+  max-height: 400px; 
+}
+
+.search-Bar.hide {
+  max-height: 0;
+}
+
+.search-Bar input {
+  width: 400px;
+  border-radius: 30px;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.search-Bar button {
+  border-radius: 30px;
+  color: whitesmoke;
+  background: linear-gradient(to bottom, #141e30, #2b4a6d);
+  padding: 10px;
 }

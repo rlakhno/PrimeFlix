@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { FaSearch } from 'react-icons/fa';
+
 
 const API_KEY = '1215575910ec222af8c6a604dac74b2a';
 
@@ -41,7 +43,8 @@ const VideoResults = () => {
   const location = useLocation();
   const query = new URLSearchParams(location.search).get('query');
   const [searchResults, setSearchResults] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(query || '');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchBar, setShowSearchBar] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -64,19 +67,27 @@ const VideoResults = () => {
     }
   };
 
+  const toggleSearchBar = () => {
+    setShowSearchBar(!showSearchBar);
+  };
+
   return (
     <div className="video-library">
-      <form onSubmit={handleSearch}>
+      <Link to="/videos" className="back-button">Back</Link>
+<button className="toggle-search-bar" onClick={toggleSearchBar}>
+      <FaSearch />
+      </button>
+      <form className={`search-Bar ${showSearchBar ? 'show' : 'hide'}`} onSubmit={handleSearch}>
         <input
           type="text"
-          placeholder="Search by Movie Title!"
+          placeholder="Search by movie title"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button type="submit">Search</button>
       </form>
       <h2>Search Results for "{query}"</h2>
-      <ul className="video-row">
+      <ul className="video-results">
         {searchResults.map((movie) => (
           <li key={movie.id}>
             <Link
