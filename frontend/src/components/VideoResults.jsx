@@ -71,6 +71,10 @@ const VideoResults = () => {
     setShowSearchBar(!showSearchBar);
   };
 
+  const getPosterUrl = (posterPath) => {
+    return posterPath ? `https://image.tmdb.org/t/p/w200${posterPath}` : 'https://t3.ftcdn.net/jpg/04/92/51/66/360_F_492516631_Tzxtms5jydBakvSf3wA9g3gdNtiV1bqS.jpg';
+  };
+
   return (
     <div className="video-library">
       <Link to="/videos" className="back-button">Back</Link>
@@ -93,14 +97,14 @@ const VideoResults = () => {
             <Link
               to={`/video/${movie.id}?title=${encodeURIComponent(movie.title)}
                   &description=${encodeURIComponent(movie.overview)}
-                  &genre=${encodeURIComponent(movie.genres[0]?.name || '')}
-                  &url=${encodeURIComponent(movie.videos.results[0]?.key || '')}
+                  &genre=${encodeURIComponent(movie.genres[0]?.name || 'Currently Unavailable')}
+                  &url=${encodeURIComponent(movie.videos.results[0]?.key || 'Currently Unavailable')}
                   &release_date=${encodeURIComponent(movie.release_date)}
                   &runtime=${encodeURIComponent(movie.runtime)}
                   &rating=${movie.vote_average}
                   &actors=${encodeURIComponent(movie.credits.cast.map(actor => actor.name).join(', '))}`}
             >
-              <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />
+              <img src={getPosterUrl(movie.poster_path)} alt={movie.title} />
             </Link>
           </li>
         ))}

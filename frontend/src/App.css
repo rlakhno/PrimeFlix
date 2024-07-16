@@ -181,13 +181,13 @@ a {
 /* --------------------------------------------------------------- */
 .toggle-search-bar {
   float: right;
+  margin-right: 20px;
   color: whitesmoke;
   background: none;
   border: none;
   font-size: 24px;
   cursor: pointer;
 }
-
 
 
 .search-Bar {
@@ -214,6 +214,8 @@ a {
   width: 400px;
   border-radius: 30px;
   padding: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
   margin-right: 10px;
 }
 
@@ -292,44 +294,3 @@ a {
 
 
 
-.search-Bar input {
-  height: 45px;
-  width: 300px;
-  border-radius: 20px;
-  padding-left: 20px;
-  border-left: 30px;
-}
-.toggle-search-bar {
-  float: right;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-bottom: 10px;
-}
-
-.search-Bar {
-    display: flex;
-  margin: 30px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 1s ease-in-out;
-}
-
-.search-Bar.show {
-  max-height: 200px; 
-}
-
-.search-Bar.hide {
-  max-height: 0;
-}
-
-/* .search-Bar input {
-  padding: 10px;
-  margin-right: 10px;
-} */
-
-.search-Bar button {
-  padding: 10px;
-}

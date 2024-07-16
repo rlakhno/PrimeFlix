@@ -91,13 +91,13 @@ const VideoPlayer = () => {
             <li key={movie.id}>
                <Link
                 to={`/video/${movie.id}?title=${encodeURIComponent(movie.title || '')}
-                    &description=${encodeURIComponent(movie.overview || 'UNAVALIBLE')}
-                    &genre=${encodeURIComponent(movie.genres?.[0]?.name || 'UNAVALIBLE')}
+                    &description=${encodeURIComponent(movie.overview || 'Description Currently Unavailable')}
+                    &genre=${encodeURIComponent(movie.genres?.[0]?.name || 'Genre Currently Unknown')}
                     &url=${encodeURIComponent(movie.videos?.results?.[0]?.key || '')}
-                    &release_date=${encodeURIComponent(movie.release_date || 'UNAVALIBLE')}
-                    &runtime=${encodeURIComponent(movie.runtime || 'UNAVALIBLE')}
+                    &release_date=${encodeURIComponent(movie.release_date || 'Currently Unavailable')}
+                    &runtime=${encodeURIComponent(movie.runtime || 'Currently Unavailable')}
                     &rating=${movie.vote_average || ''}
-                    &actors=${encodeURIComponent(movie.credits?.cast?.map(actor => actor.name).join(', ') || 'UNAVALIBLE')}`}
+                    &actors=${encodeURIComponent(movie.credits?.cast?.map(actor => actor.name).join(', ') || 'Cast Currently Unavailable')}`}
               >
                 <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}` || 'https://fontanalib.org/sites/default/files/covers/unavailable-img-_movie.jpg'} alt={movie.title} />
               </Link>

@@ -116,7 +116,7 @@ const VideoLibrary = () => {
   }, []);
 
   const getPosterUrl = (posterPath) => {
-    return posterPath ? `https://image.tmdb.org/t/p/w200${posterPath}` : 'frontend/public/images/poster_unavalible.jpg';
+    return posterPath ? `https://image.tmdb.org/t/p/w200${posterPath}` : 'https://t3.ftcdn.net/jpg/04/92/51/66/360_F_492516631_Tzxtms5jydBakvSf3wA9g3gdNtiV1bqS.jpg';
   };
 
   const handleSearch = (e) => {
@@ -147,21 +147,21 @@ const VideoLibrary = () => {
         <button type="submit">Search</button>
       </form>
 
-      <h2>Latest Movie (BETA)</h2>
+      <h2>Latest Movie</h2>
       {latestMovie && (
         <div className="latest-movie">
           <div className="latest-movie-details">
             <Link
               to={`/video/${latestMovie.id}?title=${encodeURIComponent(latestMovie.title || '')}
-                    &description=${encodeURIComponent(latestMovie.overview || 'UNAVAILABLE')}
-                    &genre=${encodeURIComponent(latestMovie.genres?.[0]?.name || 'UNAVAILABLE')}
+                    &description=${encodeURIComponent(latestMovie.overview || 'Currently Unavailable')}
+                    &genre=${encodeURIComponent(latestMovie.genres?.[0]?.name || 'Currently Unavailable')}
                     &url=${encodeURIComponent(latestMovie.videos?.results?.[0]?.key || '')}
-                    &release_date=${encodeURIComponent(latestMovie.release_date || 'UNAVAILABLE')}
-                    &runtime=${encodeURIComponent(latestMovie.runtime || 'UNAVAILABLE')}
+                    &release_date=${encodeURIComponent(latestMovie.release_date || 'Currently Unavailable')}
+                    &runtime=${encodeURIComponent(latestMovie.runtime || 'Currently Unavailable')}
                     &rating=${latestMovie.vote_average || ''}
-                    &actors=${encodeURIComponent(latestMovie.credits?.cast?.map(actor => actor.name).join(', ') || 'UNAVAILABLE')}`}
+                    &actors=${encodeURIComponent(latestMovie.credits?.cast?.map(actor => actor.name).join(', ') || 'Cast Currently Unavailable')}`}
             >
-              <img src={`https://image.tmdb.org/t/p/w300${latestMovie.poster_path}`} alt={latestMovie.title} />
+              <img src={getPosterUrl(latestMovie.poster_path)} alt={latestMovie.title} />
             </Link>
             <div className="latest-movie-info">
               <h3>{latestMovie.title}</h3>
@@ -178,16 +178,16 @@ const VideoLibrary = () => {
           {recommendations.map((movie) => (
             <li key={movie.id}>
               <Link
-                to={`/video/${movie.id}?title=${encodeURIComponent(movie.title || '')}
-                    &description=${encodeURIComponent(movie.overview || 'UNAVAILABLE')}
-                    &genre=${encodeURIComponent(movie.genres?.[0]?.name || 'UNAVAILABLE')}
+                to={`/video/${movie.id}?title=${encodeURIComponent(movie.title || 'Currently Unavailable')}
+                    &description=${encodeURIComponent(movie.overview || 'UNAVAICurrently UnavailableLABLE')}
+                    &genre=${encodeURIComponent(movie.genres?.[0]?.name || 'Currently Unavailable')}
                     &url=${encodeURIComponent(movie.videos?.results?.[0]?.key || '')}
-                    &release_date=${encodeURIComponent(movie.release_date || 'UNAVAILABLE')}
-                    &runtime=${encodeURIComponent(movie.runtime || 'UNAVAILABLE')}
+                    &release_date=${encodeURIComponent(movie.release_date || 'Currently Unavailable')}
+                    &runtime=${encodeURIComponent(movie.runtime || 'Currently Unavailable')}
                     &rating=${movie.vote_average || ''}
-                    &actors=${encodeURIComponent(movie.credits?.cast?.map(actor => actor.name).join(', ') || 'UNAVAILABLE')}`}
+                    &actors=${encodeURIComponent(movie.credits?.cast?.map(actor => actor.name).join(', ') || 'Cast Currently Unavailable')}`}
               >
-                <img src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`} alt={movie.title} />
+                <img src={getPosterUrl(movie.poster_path)} alt={movie.title} />
               </Link>
             </li>
           ))}
@@ -202,13 +202,13 @@ const VideoLibrary = () => {
               <li key={movie.id}>
                 <Link
                   to={`/video/${movie.id}?title=${encodeURIComponent(movie.title || '')}
-                    &description=${encodeURIComponent(movie.overview || 'UNAVAILABLE')}
-                    &genre=${encodeURIComponent(movie.genres?.[0]?.name || 'UNAVAILABLE')}
+                    &description=${encodeURIComponent(movie.overview || 'Currently Unavailable')}
+                    &genre=${encodeURIComponent(movie.genres?.[0]?.name || 'Currently Unavailable')}
                     &url=${encodeURIComponent(movie.videos?.results?.[0]?.key || '')}
-                    &release_date=${encodeURIComponent(movie.release_date || 'UNAVAILABLE')}
-                    &runtime=${encodeURIComponent(movie.runtime || 'UNAVAILABLE')}
+                    &release_date=${encodeURIComponent(movie.release_date || 'Currently Unavailable')}
+                    &runtime=${encodeURIComponent(movie.runtime || 'Currently Unavailable')}
                     &rating=${movie.vote_average || ''}
-                    &actors=${encodeURIComponent(movie.credits?.cast?.map(actor => actor.name).join(', ') || 'UNAVAILABLE')}`}
+                    &actors=${encodeURIComponent(movie.credits?.cast?.map(actor => actor.name).join(', ') || 'Cast Currently Unavailable')}`}
                 >
                   <img src={getPosterUrl(movie.poster_path)} alt={movie.title} />
                 </Link>
