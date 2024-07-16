@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './Login';
 import Signup from './Signup'
 import Home from './Home'
-import { Container } from 'react-bootstrap'
+// import { Container } from 'react-bootstrap'
 import Cancel from './pages/Cancel';
 import Store from './pages/Store';
 import Success from './pages/Success';

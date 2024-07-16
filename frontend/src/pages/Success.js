@@ -17,6 +17,25 @@ function Success() {
         const parsedData = JSON.parse(data);
         setItemsData(parsedData);
 
+        parsedData.forEach(element => {
+          console.log("element: ", element.id);
+          if(element.id === 'price_1PY9gf1PxLOehmUIZoBke1ER') {
+            console.log("element.id TRUE", element.id);
+            // ................Update bubscription
+            axios.put(`http://localhost:8080/api/subscription/${session.userId}`, {subscribed: true})
+            .then(response => {
+              console.log('Subscription updated successfully:', response.data);
+            })
+            .catch(error => {
+              console.error('Error updating subscription:', error.response ? error.response.data : error.message);
+
+            })
+
+
+            // ................Update bubscription 
+          }
+        });
+
         // Send data to the backend
         axios.post('http://localhost:8080/api/items', { userId: session.userId, items: parsedData })
           .then(response => {
