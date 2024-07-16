@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 8080;
 // Middleware
 app.use(cors({
   origin: ["http://localhost:3000"],
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 
 }));
@@ -143,11 +143,14 @@ app.get('/login', (req, res) => {
 
 // PUT Subscription user update
 app.put('/api/subscription/:userId', async(req, res) => {
-  const userId = req.params.userId;
+  // const userId = req.params.userId;
+  const userId = parseInt(req.params.userId, 10); // Ensure userId is an integer
   const { subscribed } = req.body;
   console.log("userID: ", userId);
   console.log("subscribed: ", subscribed);
-
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID' });
+  }
   const queryText = 'UPDATE users SET subscribed = $1 WHERE id = $2';
   const result = await pool.query(queryText, [subscribed, userId]);
   console.log("result: ", result);
