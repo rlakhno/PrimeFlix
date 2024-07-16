@@ -217,15 +217,14 @@ const VideoLibrary = () => {
           </ul>
         </div>
       ))}
+<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="60" fill="#1a1a1a" rx="10" />
+  <text x="20" y="35" font-family="Arial, sans-serif" font-size="24" fill="#ffffff">Prime</text>
+  <text x="90" y="35" font-family="Arial, sans-serif" font-size="24" fill="#ff9900">Flix</text>
+  <polygon points="160,15 180,30 160,45" fill="#ff9900" />
+</svg>
     </div>
   );
 };
 
 export default VideoLibrary;
-
-// <svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
-//   <rect width="200" height="60" fill="#1a1a1a" rx="10" />
-//   <text x="20" y="35" font-family="Arial, sans-serif" font-size="24" fill="#ffffff">Prime</text>
-//   <text x="90" y="35" font-family="Arial, sans-serif" font-size="24" fill="#ff9900">Flix</text>
-//   <polygon points="160,15 180,30 160,45" fill="#ff9900" />
-// </svg>

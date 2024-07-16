@@ -2,10 +2,7 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -28,19 +25,43 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* --------------------------------------------------------------- */
+
+.navBar {
+background-color: #201c1c;
+color: white;
 }
+
+.navBar .navbar-brand,
+.navBar .navbar-nav .nav-link,
+.navBar .navbar-text {
+  color: white !important; /* Ensure text color is white */
+}
+
+.logo-container {
+  width: 120px;
+  height: auto;
+  overflow: hidden;
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+  transition: all 0.3s ease;
+}
+
+/* .logo-container:hover .logo {
+  content: url('frontend/public/images/PF_LOGO.gif');
+} */
+
+/* .navbar-brand-with-padding {
+  padding-left: 20px;
+} */
 
 /* --------------------------------------------------------------- */
 
 .video-library {
-  background: linear-gradient(to bottom, #141e30, #2b4a6d);
+  background: linear-gradient(to bottom, #141e30, #0e3c71);
   min-height: 100vh;
   background-attachment: fixed;
   background-size: cover;
@@ -119,21 +140,21 @@ a {
   border-right: 15px;
   transition: transform 0.3s ease-in-out;}
   
-  .recommendations-row {
-    display: flex;
-    overflow-x: scroll;
-    padding: 20px 0;
-  }
-  
-  .recommendations-row::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .recommendations-row li {
-    margin-right: 30px;
-    list-style: none;
-  }
-  /* --------------------------------------------------------------- */
+.recommendations-row {
+  display: flex;
+  overflow-x: scroll;
+  padding: 20px 0;
+}
+
+.recommendations-row::-webkit-scrollbar {
+  display: none;
+}
+
+.recommendations-row li {
+  margin-right: 30px;
+  list-style: none;
+}
+/* --------------------------------------------------------------- */
 
 .videoplayer-container {
   margin:7%; 

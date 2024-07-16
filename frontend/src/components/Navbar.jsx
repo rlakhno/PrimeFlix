@@ -2,13 +2,14 @@
 import { Button, Navbar, Modal } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useContext, useEffect } from "react";
-import logo from './logo1.jpg';
+import Logo from "./LOGO";
 import subscribedImage from '../images/subscribed.jpg'
 import subscribeImage from '../images/subscribe.jpg'
 import { CartContext } from '../CartContext';
 import CartProduct from "./CartProduct";
 import { useNavigate } from "react-router-dom";
 import { useSession } from '../SessionContext';
+import '../App.css';
 import axios from "axios";
 
 const NavbarComponent = () => {
@@ -89,15 +90,9 @@ const NavbarComponent = () => {
 
   return (
     <>
-      <Navbar expand="sm">
+      <Navbar expand="sm" className="navBar" >
         <Navbar.Brand href="/home" className="navbar-brand-with-padding">
-          <img
-            src={logo}
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
-            alt="Logo"
-          />
+          <Logo />
         </Navbar.Brand>
         <Navbar.Brand href="/home">Home</Navbar.Brand>
         <Navbar.Brand href="/store">Store</Navbar.Brand>
