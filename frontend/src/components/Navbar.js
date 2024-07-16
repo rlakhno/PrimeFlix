@@ -3,7 +3,8 @@ import { Button, Navbar, Modal } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useContext, useEffect } from "react";
 import logo from './logo1.jpg';
-import subscribe from '../images/subscribe.jpg'
+import subscribedImage from '../images/subscribed.jpg'
+import subscribeImage from '../images/subscribe.jpg'
 import { CartContext } from '../CartContext';
 import CartProduct from "./CartProduct";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,8 @@ import { useSession } from '../SessionContext';
 import axios from "axios";
 
 const NavbarComponent = () => {
+  const [subscribe, setSubscribe] = useState(false);
+  const [image, setImage] = useState(subscribeImage);
   const { session, logout } = useSession();
   const [name, setName] = useState();
   const cart = useContext(CartContext);
@@ -20,14 +23,32 @@ const NavbarComponent = () => {
   const handleClose = () => setShow(false);
   const navigate = useNavigate();
   
+  useEffect(() => {
+    let subscription = sessionStorage.getItem("subscription");
+    console.log("subscription: ", subscription);
+    if (subscription === '"price_1PY9gf1PxLOehmUIZoBke1ER"') {
+      setSubscribe(true);
+      setImage(subscribedImage);
+      console.log("subscribe is True: ", subscribe);
+    } else {
+      console.log("subscribe is FALSE: ", subscribe);
+    }
+  }, []);
 
   const removeName = () => {
-    logout()
-    setName('')
+    logout();
+    setName('');
+    setImage(subscribeImage);
   }
 
   // Stripe checkout
   const checkout = async () => {
+
+    for(let i = 0; i < cart.items.length; i ++) {
+      if(cart.items[i].id === 'price_1PY9gf1PxLOehmUIZoBke1ER') {
+        window.sessionStorage.setItem("subscription", JSON.stringify(cart.items[i].id));
+      }
+    }
     window.sessionStorage.setItem("items", JSON.stringify(cart.items));
     // .................................new
     // await axios.post('http://localhost:8080/items', { withCredentials: true, data:  { items: cart.items } });
@@ -86,15 +107,18 @@ const NavbarComponent = () => {
         <Navbar.Brand href="/profile">Hi <strong>{session.firstName} {session.id}</strong></Navbar.Brand>
         <Navbar.Toggle />
         <Button onClick={removeName} >Logout</Button>
-        <Navbar.Brand href="/home" className="navbar-brand-with-padding">
+
+        <Navbar.Brand href="/store" className="navbar-brand-with-padding">
           <img
-            src={subscribe}
-            width="90"
-            height="30"
+            src={image}
+            width="100"
+            height="40"
             className="d-inline-block align-top"
             alt="Logo"
+            style={{ borderRadius: '10%' }}
           />
         </Navbar.Brand>
+
         <Navbar.Collapse className="justify-content-end">
           <Button onClick={handleShow}>Cart ({productsCount} Items)</Button>
         </Navbar.Collapse>
