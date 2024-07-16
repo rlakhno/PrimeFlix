@@ -6,7 +6,7 @@ import { useSession } from '../SessionContext';
 import axios from 'axios';
 
 function Success() {
-  const { session, logout } = useSession();
+  const { session } = useSession();
   const [itemsData, setItemsData] = useState([]);
 
   useEffect(() => {
