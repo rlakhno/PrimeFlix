@@ -146,7 +146,7 @@ app.post('/api/profile', async (req, res) => {
   const { userId } = req.body;
   console.log("userID: ", userId);
   // const queryText = 'SELECT * FROM purchases WHERE user_id = $1';
-  const queryText = 'SELECT pr.title, pr.price, pr.image, p.quantity, p.purchase_date FROM products pr JOIN purchases p ON pr.id = p.price_id WHERE p.user_id = $1';
+  const queryText = 'SELECT pr.title, pr.price, pr.image, p.quantity, p.purchase_date FROM products pr JOIN purchases p ON pr.id = p.price_id WHERE p.user_id = $1 ORDER BY p.purchase_date DESC';
   
   const result = await pool.query(queryText, [userId]);
   // console.log("result: ", result);
