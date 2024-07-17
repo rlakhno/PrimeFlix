@@ -16,7 +16,7 @@ const NavbarComponent = () => {
   const [subscribe, setSubscribe] = useState(false);
   const [image, setImage] = useState(subscribeImage);
   const { session, logout } = useSession();
-  const [name, setName] = useState();
+  const [name, setName] = useState('');
   const cart = useContext(CartContext);
   // const { totalCost } = useContext(CartContext);
   const [show, setShow] = useState(false);
@@ -25,9 +25,26 @@ const NavbarComponent = () => {
   // const navigate = useNavigate();
   
   useEffect(() => {
+    const firstName = sessionStorage.getItem("name");
+    const userId = sessionStorage.getItem("userId");
+    console.log("firstName: ", firstName);
+    if(firstName != null && firstName.length > 0){
+      setName(firstName);
+    }
+    axios.get(`http://localhost:8080/api/${userId}/subscription`)
+    .then(response => {
+      console.log("Subscription response.data: ", response.data.response[0].subscribed);
+      if (response.data.response[0].subscribed) {
+        window.sessionStorage.setItem("subscription", "price_1PY9gf1PxLOehmUIZoBke1ER");
+        setImage(subscribedImage);
+      }
+    })
+    .catch(error => {
+      console.log("Error message: ", error);
+    })
     let subscription = sessionStorage.getItem("subscription");
     console.log("subscription: ", subscription);
-    if (subscription === '"price_1PY9gf1PxLOehmUIZoBke1ER"') {
+    if (subscription === "price_1PY9gf1PxLOehmUIZoBke1ER") {
       setSubscribe(true);
       setImage(subscribedImage);
       console.log("subscribe is True: ", subscribe);
@@ -47,7 +64,7 @@ const NavbarComponent = () => {
 
     for(let i = 0; i < cart.items.length; i ++) {
       if(cart.items[i].id === 'price_1PY9gf1PxLOehmUIZoBke1ER') {
-        window.sessionStorage.setItem("subscription", JSON.stringify(cart.items[i].id));
+        window.sessionStorage.setItem("subscription", "price_1PY9gf1PxLOehmUIZoBke1ER");
       }
     }
     window.sessionStorage.setItem("items", JSON.stringify(cart.items));
@@ -96,8 +113,10 @@ const NavbarComponent = () => {
         <Navbar.Brand href="/store">Store</Navbar.Brand>
         <Navbar.Brand href="/videos">Videos</Navbar.Brand>
         <Navbar.Brand href="/profile">Profile</Navbar.Brand>
-        {/* <Button onClick={removeName} >Logout</Button> */}
-        <Navbar.Brand href="/profile">Hi <strong>{session.firstName}</strong></Navbar.Brand>
+        {name === '' ? ''
+        : 
+        <Navbar.Brand href="/profile">Hi <strong>{name}</strong></Navbar.Brand>
+        }
         <Navbar.Toggle />
         <Button onClick={removeName} >Logout</Button>
 

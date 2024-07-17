@@ -12,6 +12,8 @@ function Home() {
   //  Authorization
    useEffect(() => {
     let data = sessionStorage.getItem("valid");
+    let name = sessionStorage.getItem("name");
+    setName(name);
     if(data === "false" || data === null) {
        navigate('/');
      }
@@ -21,7 +23,7 @@ function Home() {
     <div className="home-container">
       <header className="home-header text-center">
         <div className="overlay">
-          <h1 className="display-4">Welcome to Primflix Video World</h1>
+          <h1 className="display-4">Hi {name}! Welcome to Primflix Video World</h1>
           <p className="lead">Experience the best entertainment with our exclusive subscriptions.</p>
           <div className="d-flex justify-content-center align-items-center">
           <Link to="/videos" className="btn btn-primary btn-lg mt-3">Explore Our Videos</Link>

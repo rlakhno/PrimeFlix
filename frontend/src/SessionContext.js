@@ -31,6 +31,7 @@ export function SessionProvider({ children }) {
       sessionStorage.removeItem("items");
       sessionStorage.removeItem("valid");
       sessionStorage.removeItem("subscription");
+      sessionStorage.removeItem("name");
       // You might want to redirect the user after logout
       navigate('/')
     } catch (err) {

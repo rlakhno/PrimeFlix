@@ -40,7 +40,12 @@ function Login() {
     }
     axios.post('http://localhost:8080/login', values)
       .then(res => {
+        console.log("Login Response: ", res.data);
         if (res.data.valid) {
+          if(res.data.userFirstName.length > 0) {
+            window.sessionStorage.setItem("name", res.data.userFirstName);
+            window.sessionStorage.setItem("userId", res.data.userId);
+          }
           window.sessionStorage.setItem("valid", true);
           navigate('/home');
 

@@ -206,7 +206,7 @@ app.post('/login', async (req, res) => {
       // Set user session
       // req.session = user;
       req.session.user = user; // new
-      res.json({ valid: true, });
+      res.json({ valid: true, userId: user.id, userFirstName: user.firstname });
     } else {
       res.status(401).json({ valid: false });
     }
