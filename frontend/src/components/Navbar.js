@@ -22,7 +22,7 @@ const NavbarComponent = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   
   useEffect(() => {
     let subscription = sessionStorage.getItem("subscription");
@@ -51,9 +51,7 @@ const NavbarComponent = () => {
       }
     }
     window.sessionStorage.setItem("items", JSON.stringify(cart.items));
-    // .................................new
-    // await axios.post('http://localhost:8080/items', { withCredentials: true, data:  { items: cart.items } });
-
+    
 
     await fetch('http://localhost:8080/items', {
       method: "POST",
@@ -99,7 +97,7 @@ const NavbarComponent = () => {
         <Navbar.Brand href="/videos">Videos</Navbar.Brand>
         <Navbar.Brand href="/profile">Profile</Navbar.Brand>
         {/* <Button onClick={removeName} >Logout</Button> */}
-        <Navbar.Brand href="/profile">Hi <strong>{session.firstName} {session.id}</strong></Navbar.Brand>
+        <Navbar.Brand href="/profile">Hi <strong>{session.firstName}</strong></Navbar.Brand>
         <Navbar.Toggle />
         <Button onClick={removeName} >Logout</Button>
 

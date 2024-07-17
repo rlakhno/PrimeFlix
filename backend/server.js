@@ -141,13 +141,28 @@ app.get('/login', (req, res) => {
   res.render('/');
 })
 
+app.get('/api/:id/subscription', async(req, res) => {
+  const userId = req.params.id;
+  console.log("userID: ", userId);
+  if(isNaN(userId)) {
+    return res.status(400).json({error: 'Invalid user ID ⛔'})
+  }
+  const queryText = 'SELECT subscribed FROM users WHERE id = $1';
+  const result = await pool.query(queryText, [userId]);
+  console.log("result: ", result);
+  if(result.rowCount.length === 0) {
+    return res.status(400).json({ error: 'Invalid user ID ⛔' });
+  }
+  res.json({response: result.rows});
+})
+
 // PUT Subscription user update
 app.put('/api/subscription/:userId', async(req, res) => {
   // const userId = req.params.userId;
   const userId = parseInt(req.params.userId, 10); // Ensure userId is an integer
   const { subscribed } = req.body;
-  console.log("userID: ", userId);
-  console.log("subscribed: ", subscribed);
+  // console.log("userID: ", userId);
+  // console.log("subscribed: ", subscribed);
   if (isNaN(userId)) {
     return res.status(400).json({ error: 'Invalid user ID' });
   }
