@@ -28,10 +28,12 @@ export function SessionProvider({ children }) {
     try {
       await apiLogout();
       setSession({ valid: false });
-      sessionStorage.removeItem("items");
-      sessionStorage.removeItem("valid");
-      sessionStorage.removeItem("subscription");
-      sessionStorage.removeItem("name");
+      // sessionStorage.removeItem("items");
+      // sessionStorage.removeItem("valid");
+      // sessionStorage.removeItem("subscription");
+      // sessionStorage.removeItem("name");
+      // sessionStorage.removeItem("userId");
+      sessionStorage.clear();
       // You might want to redirect the user after logout
       navigate('/')
     } catch (err) {
