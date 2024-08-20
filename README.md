@@ -25,15 +25,23 @@ PrimeFlix is a dynamic streaming platform that offers a wide range of movies and
 - **Responsive Design**: Optimized for both desktop and mobile devices.
 
 ## Screenshots
-
+#### Home page
 ![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/home-page.jpg)
+#### Login page
 ![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/login-page.jpg)
+#### Profile page
 ![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/profile-page.jpg)
+#### Secure Checkout page
 ![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/secure-checkout-page.jpg)
+#### Shopping Cart page
 ![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/shopping-cart-page.jpg)
+#### Store page
 ![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/store-page.jpg)
+#### Stripe Test page
 ![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/stripe-test-page.jpg)
+#### Success page
 ![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/success-page.jpg)
+#### Videos page
 ![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/videos-page.jpg)
 
 ## Tech Stack
