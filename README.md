@@ -5,6 +5,7 @@ PrimeFlix is a dynamic streaming platform that offers a wide range of movies and
 ## Table of Contents
 
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -14,6 +15,7 @@ PrimeFlix is a dynamic streaming platform that offers a wide range of movies and
 - [License](#license)
 - [Contact](#contact)
 
+
 ## Features
 
 - **Streaming Service**: Browse and stream a variety of movies and TV shows.
@@ -21,6 +23,18 @@ PrimeFlix is a dynamic streaming platform that offers a wide range of movies and
 - **Secure Payments**: Integrated with Stripe for secure transactions.
 - **User Authentication**: Secure login and registration with password hashing and session management.
 - **Responsive Design**: Optimized for both desktop and mobile devices.
+
+## Screenshots
+
+![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/home-page.jpg)
+![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/login-page.jpg)
+![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/profile-page.jpg)
+![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/secure-checkout-page.jpg)
+![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/shopping-cart-page.jpg)
+![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/store-page.jpg)
+![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/stripe-test-page.jpg)
+![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/success-page.jpg)
+![PrimeFlix Logo](https://github.com/rlakhno/PrimeFlix/blob/main/frontend/public/images/Readme/videos-page.jpg)
 
 ## Tech Stack
 
