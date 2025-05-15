@@ -65,10 +65,11 @@ PrimeFlix is a dynamic streaming platform that offers a wide range of movies and
 
 2. **Install dependencies**:
    ```bash
-   npm install
-   cd client
+   cd frontend
    npm install
    cd ..
+   cd backend
+   npm install
 
 3. **Set up the database**:
 
