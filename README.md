@@ -52,7 +52,7 @@ PrimeFlix is a dynamic streaming platform that offers a wide range of movies and
 - **Authentication**: Bcrypt and cookie-based sessions
 - **Payments**: Stripe API
 - **Build Tools**: Webpack
-- **Hosting/Deployment**: (Add your hosting details here, e.g., Heroku, AWS)
+- **Hosting/Deployment**: in progress
 
 ## Installation
 
