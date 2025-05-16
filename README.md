@@ -71,6 +71,9 @@ PrimeFlix is a dynamic streaming platform that offers a wide range of movies and
    cd ..
    cd backend
    npm install
+   npm install bcryptjs
+   npm install cors
+
 
 3. **Set up the database**:
 
