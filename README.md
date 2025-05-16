@@ -63,12 +63,14 @@ PrimeFlix is a dynamic streaming platform that offers a wide range of movies and
    git clone https://github.com/yourusername/PrimeFlix.git
    cd PrimeFlix
 
-2. **Install dependencies**:
+2. **Install dependencies**: Download and install Node.js (includes npm):
+👉 https://nodejs.org/
    ```bash
-   npm install
-   cd client
+   cd frontend
    npm install
    cd ..
+   cd backend
+   npm install
 
 3. **Set up the database**:
 
