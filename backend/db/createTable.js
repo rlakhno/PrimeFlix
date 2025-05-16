@@ -69,7 +69,7 @@ CREATE TABLE purchases (
 `
 -- Insert sample data into users table
 INSERT INTO users (firstName, lastName, email, password) VALUES 
-('Tom', 'Hard', 'tomhardt@rogers.com', '$2a$10$nmgcDT3A4rf./t7mINWltubkcvj1i/ISW/VEhOfqvE947kPxIH1Aq'),
+('Tom', 'Hardy', 'tomhardy@rogers.com', '$2a$10$nmgcDT3A4rf./t7mINWltubkcvj1i/ISW/VEhOfqvE947kPxIH1Aq'),
 ('Jane', 'Smith', 'janesmith@yahoo.com', '$2a$10$eNomDgkpUlvnbdU1W.9G8.j9xuNqsNArR42QFcH9V6oL2K5iyvuRW');
 
 -- Insert sample data into products table
