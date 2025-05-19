@@ -31,6 +31,7 @@ function Login() {
   // Set Axios defaults
   axios.defaults.withCredentials = true;
 
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
   const handleSubmit = (event) => {
     event.preventDefault();
     const validation = validate(values);
@@ -38,7 +39,7 @@ function Login() {
       setErrors(validation.messages);
       return
     }
-    axios.post('http://localhost:8080/login', values)
+    axios.post('${API_BASE_URL}login', values)
       .then(res => {
         console.log("Login Response: ", res.data);
         if (res.data.valid) {
