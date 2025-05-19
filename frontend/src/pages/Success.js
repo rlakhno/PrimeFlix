@@ -23,7 +23,7 @@ function Success() {
 
             console.log("element.id TRUE", element.id);
             // ................Update bubscription
-            axios.put(`http://localhost:8080/api/subscription/${session.userId}`, {subscribed: true})
+            axios.put(`${process.env.REACT_APP_API_BASE_URL}api/subscription/${session.userId}`, {subscribed: true})
             .then(response => {
               // console.log('Subscription updated successfully:', response.data);
             })
@@ -38,7 +38,7 @@ function Success() {
         });
 
         // Send data to the backend
-        axios.post('http://localhost:8080/api/items', { userId: session.userId, items: parsedData })
+        axios.post(`${process.env.REACT_APP_API_BASE_URL}api/items`, { userId: session.userId, items: parsedData })
           .then(response => {
             console.log('Data sent to the server:', response.data);
           })

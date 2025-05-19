@@ -31,7 +31,7 @@ const NavbarComponent = () => {
     if(firstName != null && firstName.length > 0){
       setName(firstName);
     }
-    axios.get(`http://localhost:8080/api/${userId}/subscription`)
+    axios.get(`${process.env.REACT_APP_API_BASE_URL}api/${userId}/subscription`)
     .then(response => {
       console.log("Subscription response.data: ", response.data.response[0].subscribed);
       if (response.data.response[0].subscribed) {
@@ -70,7 +70,7 @@ const NavbarComponent = () => {
     window.sessionStorage.setItem("items", JSON.stringify(cart.items));
     
 
-    await fetch('http://localhost:8080/items', {
+    await fetch(`${process.env.REACT_APP_API_BASE_URL}items`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ const NavbarComponent = () => {
     // ..............................
 
     console.log("cart.items Navbar: ", cart.items);
-    await fetch('http://localhost:8080/checkout', {
+    await fetch(`${process.env.REACT_APP_API_BASE_URL}checkout`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'

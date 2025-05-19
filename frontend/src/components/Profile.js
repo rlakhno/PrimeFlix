@@ -23,7 +23,7 @@ const handleOnClick = (event) => {
   event.preventDefault();
   const userId = session.userId;
   console.log("userId: ", userId);
-  axios.post('http://localhost:8080/api/profile', { userId })
+  axios.post(`${process.env.REACT_APP_API_BASE_URL}api/profile`, { userId })
   .then(res => {
     console.log("RES from Profile: ", res.data);
     if(res.data) {

@@ -1,4 +1,3 @@
-
 // Coffee: price_1PX6XL1PxLOehmUImH80IHbR
 // Sunglasses: price_1PX6mJ1PxLOehmUIbX85yFVG
 // Camera: price_1PX6np1PxLOehmUI1bbQrTaZ 
@@ -12,7 +11,7 @@ import axios from 'axios';
 let productsArray = [];
 
 async function fetchProductData() {
-  const response = await axios.get('http://localhost:8080/api/products');
+  const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}api/products`);
   // console.log("response from ProductStore: ", response.data.products);
   if (response.data.products) {
     productsArray = response.data.products;
