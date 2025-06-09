@@ -6,33 +6,26 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
 const cors = require('cors');
 const pool = require('./db/pool');
-const session = require('express-session');
+// const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const axios = require('axios');
 const cookieSession = require('cookie-session');
 
 // Stripe 
-const stripe = require('stripe')('sk_test_51POi051PxLOehmUIIL9S0xiFaI3zaxfeMpAfrb4MSs6eb9JKI59tc2SRXQXsbYRgOK4Xo5L9oaUQBBH3KK9QjQZI00YwT0o0Ee');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+
+const port = process.env.PORT || 8080;
+
 
 // Middleware
 app.use(cors({
-  origin: ["http://localhost:3000"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: true,
   credentials: true
 
 }));
 
-// Initialize express-session middleware
-// app.use(session({
-//   secret: 'secret_key', // Replace with a secure random string for session encryption
-//   resave: false,
-//   saveUninitialized: true,
-//   cookie: { secure: false }
-
-// }));
 
 app.use(cookieSession({
   name: 'session',
@@ -56,6 +49,10 @@ app.get('/logout', (req, res) => {
   req.session = null
   res.clearCookie('connect.sid');
   res.send('Logged out');
+});
+
+app.get('/', (req, res) => {
+  res.send('🚀 PrimeFlix Backend is running on Railway!');
 });
 
 
@@ -82,7 +79,7 @@ app.post('/signup', async (req, res) => {
 });
 
 //  Home endpoint - Email session validation on home page
-app.get('/', (req, res) => {
+app.get('/validate-session', (req, res) => {
   req.session.user
     ? res.json({ valid: true, username: req.session.user.email })
     : res.json({ valid: false })
@@ -150,8 +147,8 @@ app.get('/api/:id/subscription', async(req, res) => {
   const queryText = 'SELECT subscribed FROM users WHERE id = $1';
   const result = await pool.query(queryText, [userId]);
   console.log("result: ", result);
-  if(result.rowCount.length === 0) {
-    return res.status(400).json({ error: 'Invalid user ID ⛔' });
+  if(result.rowCount === 0) {
+    return res.status(404).json({ error: 'No purchases found for this user ⛔' });
   }
   res.json({response: result.rows});
 })
@@ -169,7 +166,7 @@ app.put('/api/subscription/:userId', async(req, res) => {
   const queryText = 'UPDATE users SET subscribed = $1 WHERE id = $2';
   const result = await pool.query(queryText, [subscribed, userId]);
   console.log("result: ", result);
-  if(result.rowCount.length === 0) {
+  if(result.rowCount === 0) {
     return res.status(500).json({error: 'Did not get response from Database ⛔'})
   }
   res.json({response: result.rows})
@@ -184,7 +181,7 @@ app.post('/api/profile', async (req, res) => {
   
   const result = await pool.query(queryText, [userId]);
   // console.log("result: ", result);
-  if(result.rowCount.length === 0) {
+  if(result.rowCount === 0) {
     return res.status(500).json({error: 'Did not get response from Database ⛔'})
   }
   res.json({response: result.rows})
@@ -220,24 +217,8 @@ app.post('/login', async (req, res) => {
 
 // Spripe POST request -> checkout
 app.post("/checkout", async (req, res) => {
-  /*
-  req.body.items
-  [
-    {
-      id: 1,
-      quantity: 3
-      }
-      ]
-      Stripe wants it tomlook like this:
-      [
-        {
-          price: 1,
-          quantity: 3
-          }
-          
-          ]
-          */
-  // Stripe calls 'lineItems' for API call
+
+// Stripe calls 'lineItems' for API call
 
   try {
 
@@ -255,21 +236,18 @@ app.post("/checkout", async (req, res) => {
 
     });
 
-    // console.log("items ADDING: ",items);
-    // req.session.cartItems = items;
     // Create a session in Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/cancel"
+      // success_url: "http://localhost:3000/success",
+      // cancel_url: "http://localhost:3000/cancel"
+      success_url: "https://primeflix-frontend.up.railway.app/success",
+      cancel_url: "https://primeflix-frontend.up.railway.app/cancel"
+
     });
 
-    // Update session with cart items
-    // console.log("req.session: ",JSON.stringify(req.session, null, 2), new Date() );
-    // console.log("items HERE: ",items);
-    // req.session.cartItems = items;
 
     res.send(JSON.stringify({
       url: session.url
@@ -280,17 +258,6 @@ app.post("/checkout", async (req, res) => {
   }
 });
 
-// useEffect(() => {
-//   fetchSessionData()
-//     .then(data => {
-//       if(data.valid) {
-//         setSession({ ...data, valid: true})
-//       }
-//   })
-//     .catch(err => {console.error('Failed to fetch session data', err);
-// });
-    
-// }, []);
 
 // New endpoint to fetch product data from the database
 app.get('/api/products', async (req, res) => {
@@ -306,9 +273,11 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
+console.log(`✅ About to listen on port: ${port}`);
+
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(port, () => {
+  console.log(`✅ Server is listening on Railway's assigned port: ${port}`);
 });
 
 
