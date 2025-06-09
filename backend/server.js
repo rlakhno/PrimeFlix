@@ -243,8 +243,11 @@ app.post("/checkout", async (req, res) => {
       mode: 'payment',
       // success_url: "http://localhost:3000/success",
       // cancel_url: "http://localhost:3000/cancel"
-      success_url: "https://primeflix-frontend.up.railway.app/success",
-      cancel_url: "https://primeflix-frontend.up.railway.app/cancel"
+      // success_url: "https://primeflix-frontend.up.railway.app/success",
+      // cancel_url: "https://primeflix-frontend.up.railway.app/cancel"
+      success_url: "https://primeflix-rlakhno.netlify.app/success",
+      cancel_url: "https://primeflix-rlakhno.netlify.app/cancel",
+
 
     });
 
