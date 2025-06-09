@@ -59,13 +59,13 @@ function Success() {
       <h1>Thank you for your purchase! <b>{session.firstName}</b></h1>
       <h4>Customer's email: {session.email}, ID: {session.userId} </h4>
       <h2>Items Purchased:</h2>
-      <ui>
+      <ul>
         {itemsData.map((item, index) => (
           <ul key={index}>
             ID: {item.id}, Quantity: {item.quantity}
           </ul>
         ))}
-      </ui>
+      </ul>
     </div>
   )
 }
